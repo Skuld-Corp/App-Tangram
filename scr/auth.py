@@ -1,7 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+import sqlalchemy.exc
+from flask import Blueprint, request, redirect, url_for, flash
 from .models import Usuario, db
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_required, login_user, logout_user, current_user
+from flask_login import login_required, login_user, logout_user
+import bcrypt
 
 auth = Blueprint('auth', __name__)
 
@@ -22,10 +24,16 @@ def cadastrar():
         flash('Senha muito curta', category="error")
         return redirect(url_for('views.cadastro'))
     else:
-        novo_usuario = Usuario(nome=nome, email=email, senha=generate_password_hash(senha1, 'sha256'))
-        db.session.add(novo_usuario)
-        db.session.commit()
-        flash('Conta criada com sucesso!', category="sucess")
+        try:
+            salt = bcrypt.gensalt()
+            senha_cripto = bcrypt.hashpw(senha1.encode('utf-8'), salt)
+            novo_usuario = Usuario(nome=nome, email=email, senha=senha_cripto)
+            db.session.add(novo_usuario)
+            db.session.commit()
+            flash('Conta criada com sucesso!', category="sucess")
+        except sqlalchemy.exc.IntegrityError:
+            flash('E-mail já registrado', category='error')
+            return redirect(url_for('views.cadastro'))
         return redirect(url_for('views.home'))
 
 
@@ -37,7 +45,7 @@ def login_confirm():
     usuario = Usuario.query.filter_by(email=email_net).first()
 
     if usuario:
-        if check_password_hash(usuario.senha, senha_net):
+        if bcrypt.checkpw(senha_net.encode('utf-8'), usuario.senha.encode('utf-8')):
             flash('Logado com sucesso!', category='sucess')
             login_user(usuario, remember=True)
             return redirect(url_for('views.home'))
