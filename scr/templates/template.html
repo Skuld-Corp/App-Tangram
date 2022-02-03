@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-light">
+            <a 
+                href="{{ url_for('views.home') }}"
+                class="navbar-brand mb-0 h1">
+                    <img 
+                        class="d-inline-block align-top"
+                        src="../static/img/nasadaq_icon.png"
+                        width="30" height="30" 
+                        alt="Banco Logo">
+                    Banco Skuld
+            </a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle Navigation">
+                    <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a href="{{ url_for('views.home') }}" class="nav-link">
+                            Home
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item active">
+                            <a href="{{ url_for('auth.logout') }}" class="nav-link">
+                                Logout
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item active">
+                            <a href="{{ url_for('views.login') }}" class="nav-link">
+                                Login
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a href="{{ url_for('views.cadastro') }}" class="nav-link">
+                                Cadastro
+                            </a>
+                    {% endif %}
+                </ul>
+
+            </div>
+        </nav>
+    </header>
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul id ="messages" class="list-unstyled">
+                    {% for category, message in messages%}
+                    {% if category == 'error' %}
+                        <li class="alert alert-danger">
+                            {{ message }}
+                        </li>
+                    {% else %}
+                        <li class="alert alert-success">
+                            {{ message }}
+                        </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block conteudo %}
+        {% endblock %}
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</body>
+</html>

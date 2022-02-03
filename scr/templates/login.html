@@ -1,0 +1,14 @@
+{% extends "template.html" %}
+{% block conteudo %}
+    <form action="{{ url_for('auth.login_confirm') }}" method="POST">
+          <div class="mb-3">
+              <label for="Email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="Email" name='email'>
+          </div>
+          <div class="mb-3">
+              <label for="Senha" class="form-label">Senha</label>
+              <input type="password" class="form-control" id="Senha" name='senha'>
+          </div>
+          <button type="submit" class="btn btn-primary">Logar</button>
+    </form>
+{% endblock %}

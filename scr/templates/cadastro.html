@@ -1,0 +1,22 @@
+{% extends "template.html" %}
+{% block conteudo %}
+    <form action="{{ url_for('auth.cadastrar') }}" method="POST">
+        <div class="mb-3">
+            <label for="Nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name='nome' required placeholder="Seu nome">
+          </div>
+          <div class="mb-3">
+              <label for="Email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="Email" name='email' required placeholder="Seu email">
+          </div>
+          <div class="mb-3">
+              <label for="Senha" class="form-label">Senha</label>
+              <input type="password" class="form-control" id="Senha" name='senha' required>
+          </div>
+          <div class="mb-3">
+            <label for="Senha" class="form-label">Confirmar Senha</label>
+            <input type="password" class="form-control" id="Senha2" name='senha2' required>
+        </div>
+          <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </form>
+{% endblock %}
