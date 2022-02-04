@@ -27,7 +27,7 @@ def cadastrar():
         try:
             salt = bcrypt.gensalt()
             senha_cripto = bcrypt.hashpw(senha1.encode('utf-8'), salt)
-            novo_usuario = Usuario(nome=nome, email=email, senha=senha_cripto)
+            novo_usuario = Usuario(nome=nome, email=email, senha=senha_cripto, role=2)
             db.session.add(novo_usuario)
             db.session.commit()
             flash('Conta criada com sucesso!', category="sucess")
