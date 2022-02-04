@@ -40,7 +40,7 @@ def cadastrar():
 @auth.route('/login-confirm', methods=['post', ])
 def login_confirm():
     email_net = request.form.get('email')
-    senha_net = request.form.get('senha')
+    senha_net = request.form.get('password')
 
     usuario = Usuario.query.filter_by(email=email_net).first()
 
