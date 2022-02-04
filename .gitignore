@@ -2,3 +2,4 @@ venv/
 .idea/
 __pycache__/
 scr/__pycache__/
+.vscode/
