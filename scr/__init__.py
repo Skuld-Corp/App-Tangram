@@ -5,7 +5,7 @@ from flask_login import LoginManager
 
 db = SQLAlchemy()
 scheme = 'bancoskuld'
-db_senha = 'teamo123'
+db_senha = 'Vv220621*'
 db_user = 'root'
 
 
