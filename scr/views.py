@@ -17,8 +17,8 @@ def cadastro():
 
 @views.route('/login')
 def login():
-	if current_user.is_authenticated:
-		flash('Você já esta logado!', category="sucess")
-		return redirect(url_for('views.home'))
-	else:
-		return render_template('login.html', user=current_user)
+    if current_user.is_authenticated:
+        flash('Você já esta logado!', category="sucess")
+        return redirect(url_for('views.home'))
+    else:
+        return render_template('login.html', user=current_user)
