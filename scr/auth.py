@@ -8,33 +8,34 @@ import bcrypt
 auth = Blueprint('auth', __name__)
 
 
-@auth.route('/cadastrar', methods=['post', ])
+@auth.route('/cadastrar', methods=['POST',])
 def cadastrar():
-    nome = request.form.get('nome')
-    email = request.form.get('email')
-    senha1 = request.form.get('senha')
-    senha2 = request.form.get('senha2')
+    if request.method == "POST":
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        senha1 = request.form.get('senha')
+        senha2 = request.form.get('senha2')
 
-    senha_sao_iguais = senha1 == senha2
+        senha_sao_iguais = senha1 == senha2
 
-    if not senha_sao_iguais:
-        flash('Senhas não são iguais', category="error")
-        return redirect(url_for('views.cadastro'))
-    elif len(senha1) < 3:
-        flash('Senha muito curta', category="error")
-        return redirect(url_for('views.cadastro'))
-    else:
-        try:
-            salt = bcrypt.gensalt()
-            senha_cripto = bcrypt.hashpw(senha1.encode('utf-8'), salt)
-            novo_usuario = Usuario(nome=nome, email=email, senha=senha_cripto, role=2)
-            db.session.add(novo_usuario)
-            db.session.commit()
-            flash('Conta criada com sucesso!', category="sucess")
-        except sqlalchemy.exc.IntegrityError:
-            flash('E-mail já registrado', category='error')
+        if not senha_sao_iguais:
+            flash('Senhas não são iguais', category="error")
             return redirect(url_for('views.cadastro'))
-        return redirect(url_for('views.home'))
+        elif len(senha1) < 3:
+            flash('Senha muito curta', category="error")
+            return redirect(url_for('views.cadastro'))
+        else:
+            try:
+                salt = bcrypt.gensalt()
+                senha_cripto = bcrypt.hashpw(senha1.encode('utf-8'), salt)
+                novo_usuario = Usuario(nome=nome, email=email, senha=senha_cripto, role=3)
+                db.session.add(novo_usuario)
+                db.session.commit()
+                flash('Conta criada com sucesso!', category="sucess")
+            except sqlalchemy.exc.IntegrityError:
+                flash('E-mail já registrado', category='error')
+                return redirect(url_for('views.cadastro'))
+            return redirect(url_for('views.home'))
 
 
 @auth.route('/login-confirm', methods=['post', ])
