@@ -1,9 +1,9 @@
 import sqlalchemy.exc
 from flask import Blueprint, request, redirect, url_for, flash
-from .models import Usuario, db
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_required, login_user, logout_user
+from .models import Usuario, db, TangramCoin
+from flask_login import login_required, login_user, logout_user, current_user
 import bcrypt
+from .help_functions import tem_saldo_suficiente
 
 auth = Blueprint('auth', __name__)
 
@@ -64,3 +64,40 @@ def logout():
     flash('Deslogado com sucesso!', category='sucess')
     logout_user()
     return redirect(url_for('views.home'))
+
+
+@auth.route('/depositar', methods=['post',])
+@login_required
+def deposita():
+    eh_aluno = current_user.role
+    if eh_aluno:
+        saldo_a_depositar = request.form.get('saldo_deposita')
+        carteira_do_usuario = TangramCoin.query.filter_by(player_id=current_user.id).first()
+        carteira_do_usuario.saldo += int(saldo_a_depositar)
+        db.session.add(carteira_do_usuario)
+        db.session.commit()
+        flash("Saldo depositado com sucesso!", category='sucess')
+        return redirect(url_for('views.home'))
+    else:
+        flash("Ops algo deu errado!", category='error')
+        return redirect(url_for('views.home'))
+
+
+@auth.route('/sacar', methods=['post',])
+@login_required
+def sacar():
+    eh_aluno = current_user.role
+    if eh_aluno:
+        saldo_a_sacar = int(request.form.get('saldo_sacar'))
+        carteira_do_usuario = TangramCoin.query.filter_by(player_id=current_user.id).first()
+        if tem_saldo_suficiente(carteira_do_usuario.saldo, saldo_a_sacar):
+            carteira_do_usuario.saldo -= saldo_a_sacar
+            db.session.add(carteira_do_usuario)
+            db.session.commit()
+            flash("Saldo sacado com sucesso!", category='sucess')
+        else:
+            flash("Saldo Insuficiente", category='error')
+        return redirect(url_for('views.home'))
+    else:
+        flash("Ops algo deu errado!", category='error')
+        return redirect(url_for('views.home'))

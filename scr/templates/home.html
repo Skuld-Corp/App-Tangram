@@ -9,7 +9,26 @@
         {% elif user.has_role == 2 %}
             <p>Bem vindo, Professor</p>
         {% elif user.has_role == 3%}
-            <p>Bem vindo, Aluno</p>
+            <p>Bem vindo, Aluno {{ user.nome }}</p>
+            {% for user in user.saldo %}
+                <p>Seu saldo é: {{ user.saldo }} TangramCoins</p>
+                <div>
+                    <form action="{{ url_for('auth.deposita') }}" method="post">
+                        <div class="mb-3">
+                          <label for="saldo_depositar" class="form-label">Saldo</label>
+                          <input type="number" class="form-control" id="saldo_depositar" name='saldo_deposita' required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Depositar</button>
+                    </form>
+                    <form action="{{ url_for('auth.sacar') }}" method="post">
+                        <div class="mb-3">
+                          <label for="saldo_sacar" class="form-label">Saldo</label>
+                          <input type="number" class="form-control" id="saldo_sacar" name='saldo_sacar' required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sacar</button>
+                    </form>
+                </div>
+            {% endfor %}
         {% endif %}
     {% endif %}
 {% endblock %}
