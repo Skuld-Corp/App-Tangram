@@ -1,67 +1,196 @@
-{% extends "template.html" %}
-
-{% block conteudo %}
+{% extends "template.html" %} {% block conteudo %}
 <main>
-  <div class="fundo"></div>
-    <!-- formulário -->
-  
-  <div class="section"></div>
-    <center style=" margin-top: 9rem;z-index: 100;" class="formulario formzin">
-    
-      <div class="section"></div>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <title>Tamgram Bank</title>
+      <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
 
-      <div  class="container ">
-        <div class="z-depth-1 grey lighten-4 row " style="display: inline-block; padding: 100px 48px 0px 48px; border: 1px solid #EEE;border-radius: 20px;">
-
-          <form class="col s12 bg-white formzin" method="post" action="{{ url_for('auth.login_confirm') }}">
-            <div class='row'>
-              <div class='col s12'>
+    <body>
+      <div class="login-root">
+        <div
+          class="box-root flex-flex flex-direction--column"
+          style="min-height: 100vh; flex-grow: 1"
+        >
+          <div class="loginbackground box-background--white padding-top--64">
+            <div class="loginbackground-gridContainer">
+              <div
+                class="box-root flex-flex"
+                style="grid-area: top / start / 8 / end"
+              >
+                <div
+                  class="box-root"
+                  style="
+                    background-image: linear-gradient(
+                      white 0%,
+                      rgb(247, 250, 252) 33%
+                    );
+                    flex-grow: 1;
+                  "
+                ></div>
+              </div>
+              <div
+                class="box-root flex-flex"
+                style="grid-area: 4 / 2 / auto / 5"
+              >
+                <div
+                  class="box-root box-divider--light-all-2 animationLeftRight tans3s"
+                  style="flex-grow: 1"
+                ></div>
+              </div>
+              <div
+                class="box-root flex-flex"
+                style="grid-area: 6 / start / auto / 2"
+              >
+                <div
+                  class="box-root box-background--blue800"
+                  style="flex-grow: 1"
+                ></div>
+              </div>
+              <div
+                class="box-root flex-flex"
+                style="grid-area: 7 / start / auto / 4"
+              >
+                <div
+                  class="box-root box-background--blue animationLeftRight"
+                  style="flex-grow: 1"
+                ></div>
+              </div>
+              <div
+                class="box-root flex-flex"
+                style="grid-area: 8 / 4 / auto / 6"
+              >
+                <div
+                  class="box-root box-background--gray100 animationLeftRight tans3s"
+                  style="flex-grow: 1"
+                ></div>
+              </div>
+              <div
+                class="box-root flex-flex"
+                style="grid-area: 2 / 15 / auto / end"
+              >
+                <div
+                  class="box-root box-background--cyan200 animationRightLeft tans4s"
+                  style="flex-grow: 1"
+                ></div>
+              </div>
+              <div
+                class="box-root flex-flex"
+                style="grid-area: 3 / 14 / auto / end"
+              >
+                <div
+                  class="box-root box-background--blue animationRightLeft"
+                  style="flex-grow: 1"
+                ></div>
+              </div>
+              <div
+                class="box-root flex-flex"
+                style="grid-area: 4 / 17 / auto / 20"
+              >
+                <div
+                  class="box-root box-background--gray100 animationRightLeft tans4s"
+                  style="flex-grow: 1"
+                ></div>
+              </div>
+              <div
+                class="box-root flex-flex"
+                style="grid-area: 5 / 14 / auto / 17"
+              >
+                <div
+                  class="box-root box-divider--light-all-2 animationRightLeft tans3s"
+                  style="flex-grow: 1"
+                ></div>
               </div>
             </div>
-
-            <div class='row'>
-              <div class='input-field col s12'>
-                <input class='validate' type='email' name='email' id='email' required/>
-                <label for='email'>Enter your email</label>
+          </div>
+          <div
+            class="box-root padding-top--24 flex-flex flex-direction--column"
+            style="flex-grow: 1; z-index: 9"
+          >
+            <div
+              class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center"
+            >
+            <span
+            ><img
+              src="../static/img/tg-logo.png"
+              alt="logoTamgram"
+              width="150px"
+              height="150px"
+             
+               /></span
+        ></a>
+              <h1>
+                <a
+                  
+                  rel="dofollow"
+                  style="
+                    color: #299bf3;
+                    font-family: 'Poppins', sans-serif;
+                    font-weight: bold;
+                  "
+                  >Tamgram Bank
+                 
+              </h1>
+            </div>
+            <div class="formbg-outer">
+              <div class="formbg">
+                <div class="formbg-inner padding-horizontal--48">
+                  <span class="padding-bottom--15">Quem poupa ganha😜</span>
+                  <form id="stripe-login" method="post" action="{{ url_for('auth.login_confirm') }}">
+                    <div class="field padding-bottom--24">
+                      <label for="email">Email</label>
+                      <input type="email" name="email" />
+                    </div>
+                    <div class="field padding-bottom--24">
+                      <div class="grid--50-50">
+                        <label for="password">Senha</label>
+                        <div class="reset-pass">
+                          <a href="#">Esqueceu sua senha?</a>
+                        </div>
+                      </div>
+                      <input type="password" name="password" />
+                    </div>
+                    <div
+                      class="field field-checkbox padding-bottom--24 flex-flex align-center"
+                    >
+                      <label for="checkbox">
+                        <input class="jamesbond" type="checkbox" name="checkbox" /> Aprenda
+                        matemática financeira de uma maneira divertida!!!
+                      </label>
+                    </div>
+                    <div class="field padding-bottom--24">
+                      <input
+                        style="background-color: #299bf3"
+                        type="submit"
+                        name="submit"
+                        value="Entrar"
+                      />
+                    </div>
+                    <div class="field">
+                      <a class="ssolink" href="#">Quem Poupa ganha😜</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="footer-link padding-top--24">
+                <span
+                  >Não tem uma conta no jogo?
+                  <a href="{{ url_for('views.cadastro') }}">Cadastre aqui✏️</a></span
+                >
+                <div
+                  class="listing padding-top--24 padding-bottom--24 flex-flex center-center"
+                >
+                  <span><a href="www.tangramensino.com">©Nosso Portal</a></span>
+                  <span><a href="+55 31 8882-2158">Contato</a></span>
+                  <span><a href="#">Feito com </a></span>
+                </div>
               </div>
             </div>
-
-            <div class='row'>
-              <div class='input-field col s12'>
-                <input class='validate' type='password' name='password' id='password' required/>
-                <label for='password'>Enter your password</label>
-              </div>
-              <label style='float: right;'>
-                                <a class='text-blue lighten-4' href='#!'><b>Esqueceu a senha?</b></a>
-                            </label>
-            </div>
-
-            <br/>
-            <center>
-              <div class='row'>
-                <button  style="border-radius: 10px;;" type='submit' name='btn_login' class='col s12 btn btn-large waves-effect light-blue accent-3  text-white '>Entrar</button>
-              </div>
-            </center>
-          </form>
+          </div>
         </div>
       </div>
-      <a href="{{ url_for('views.cadastro') }}">Crie uma conta para Jogar</a>
-    </center>
-
-    <div class="section"></div>
-    <div class="section"></div>
+    </body>
+  </html>
 </main>
-
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
-<div class="gif">
-<img src="../static/img/Mathematics (1).gif" alt="matematica">
-</div>
-<div style="margin-top: -2.5rem;margin-left: 0.5rem;" class="logo">
-<img  height="150px" width="150px" src="../static/img/tg-logo.png" alt="logo">
-<h6 class="loginTitle">Faça o login!!!</h6>
-</div>
-    </div>
-  </main>
 {% endblock %}
