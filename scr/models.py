@@ -1,5 +1,6 @@
 from . import db
 from flask_login import UserMixin
+from sqlalchemy import DDL, event
 
 
 class Usuario(db.Model, UserMixin):
@@ -34,3 +35,16 @@ class TangramCoin(db.Model):
     saldo = db.Column(db.Integer)
     player_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
 
+
+trigger_create_coin = DDL('''\
+    CREATE TRIGGER CoinsIniciais AFTER INSERT
+    ON usuario 
+    FOR EACH ROW 
+        begin
+            If (NEW.`role` = '3') THEN
+		        INSERT INTO tangramcoin (player_id, saldo) values (NEW.id, '100');
+	        END IF;
+	end;
+''')
+
+event.listen(Usuario.__table__, "after_create", trigger_create_coin)
