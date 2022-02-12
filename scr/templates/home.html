@@ -6,6 +6,7 @@
     {% else %}
         {% if user.has_role == 1 %}
             <p>Bem vindo, Admin</p>
+            <a href="{{ url_for('views.cadastro') }}" target="_self" rel="next">Cadastrar Professor</a>
         {% elif user.has_role == 2 %}
             <p>Bem vindo, Professor</p>
         {% elif user.has_role == 3%}

@@ -28,10 +28,19 @@ def cadastrar():
             try:
                 salt = bcrypt.gensalt()
                 senha_cripto = bcrypt.hashpw(senha1.encode('utf-8'), salt)
-                novo_usuario = Usuario(nome=nome, email=email, senha=senha_cripto, role=3)
-                db.session.add(novo_usuario)
-                db.session.commit()
-                flash('Conta criada com sucesso!', category="sucess")
+                if current_user.is_authenticated:
+                    # cria professor se for admin
+                    if current_user.has_role == 1:
+                        novo_professor = Usuario(nome=nome, email=email, senha=senha_cripto, role=2)
+                        flash('Professor cadastrado com sucesso!', category="sucess")
+                        db.session.add(novo_professor)
+                        db.session.commit()
+                else:
+                    # aluno default
+                    novo_usuario = Usuario(nome=nome, email=email, senha=senha_cripto, role=3)
+                    db.session.add(novo_usuario)
+                    db.session.commit()
+                    flash('Conta criada com sucesso!', category="sucess")
             except sqlalchemy.exc.IntegrityError:
                 flash('E-mail já registrado', category='error')
                 return redirect(url_for('views.cadastro'))
