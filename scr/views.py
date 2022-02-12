@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import current_user
 
 
@@ -17,4 +17,8 @@ def cadastro():
 
 @views.route('/login')
 def login():
-    return render_template('login.html', user=current_user)
+    if current_user.is_authenticated:
+        flash('Você já esta logado!', category="sucess")
+        return redirect(url_for('views.home'))
+    else:
+        return render_template('login.html', user=current_user)
