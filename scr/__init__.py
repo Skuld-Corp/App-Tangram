@@ -27,6 +27,8 @@ def cria_app():
 
         db.create_all()
 
+        configura_roles(db=db)
+
         app.register_blueprint(views, url_prefix='/')
         app.register_blueprint(auth, url_prefix='/')
 
@@ -37,6 +39,15 @@ def cria_app():
         return app
 
 
-
-
+def configura_roles(db):
+    from .models import Roles
+    verifica_tabela_cheia = Roles.query.filter_by(id=1).first()
+    if not verifica_tabela_cheia:
+        admin = Roles(nome="Admin", descricao="Permitir cadastrar professor")
+        professor = Roles(nome="Professor", descricao="Permitir criar perguntas para os estudantes")
+        estudante = Roles(nome="Estudante", descricao="Permitir respoder as perguntas e ter Tangramcoin")
+        db.session.add(admin)
+        db.session.add(professor)
+        db.session.add(estudante)
+        db.session.commit()
 

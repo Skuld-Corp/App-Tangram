@@ -4,6 +4,32 @@
     {% if not user.is_authenticated %}
         <img src="../static/img/nasdaq.jpg" alt="Nasdaq Image">
     {% else %}
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis quisquam voluptatibus vel molestiae. Quisquam incidunt commodi mollitia distinctio vitae nobis dolores fugit quis quibusdam ducimus. Ullam praesentium temporibus nemo vero!</p>
+        {% if user.has_role == 1 %}
+            <p>Bem vindo, Admin</p>
+            <a href="{{ url_for('views.cadastro') }}" target="_self" rel="next">Cadastrar Professor</a>
+        {% elif user.has_role == 2 %}
+            <p>Bem vindo, Professor</p>
+        {% elif user.has_role == 3%}
+            <p>Bem vindo, Aluno {{ user.nome }}</p>
+            {% for user in user.saldo %}
+                <p>Seu saldo é: {{ user.saldo }} TangramCoins</p>
+                <div>
+                    <form action="{{ url_for('auth.deposita') }}" method="post">
+                        <div class="mb-3">
+                          <label for="saldo_depositar" class="form-label">Saldo</label>
+                          <input type="number" class="form-control" id="saldo_depositar" name='saldo_deposita' required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Depositar</button>
+                    </form>
+                    <form action="{{ url_for('auth.sacar') }}" method="post">
+                        <div class="mb-3">
+                          <label for="saldo_sacar" class="form-label">Saldo</label>
+                          <input type="number" class="form-control" id="saldo_sacar" name='saldo_sacar' required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sacar</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% endif %}
     {% endif %}
 {% endblock %}
