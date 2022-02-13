@@ -63,6 +63,10 @@ def login_confirm():
             flash('Senha digitada inválida!', category='error')
             return redirect(url_for('views.login'))
     else:
+        # verificação "atoa" para evitar > "ACCOUNT ENUMERATION VIA TIMING ATTACKS"
+        senha_hash = "$2a$12$zlU2BApnYUfTsxOUgOQ8wuk.cFsFqFq2g.d/DC3X2N74TOa7yF27e"
+        if bcrypt.checkpw(senha_net.encode('utf-8'), senha_hash.encode('utf-8')):
+            pass
         flash('Usuário não encontrado!', category='error')
         return redirect(url_for('views.login'))
 
