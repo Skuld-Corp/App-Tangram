@@ -26,6 +26,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - CSS
 - Javascript
 - Python
+- Microframework Flask
 - Mysql
 
 Contribuintes
