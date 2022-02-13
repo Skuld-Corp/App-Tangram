@@ -1,9 +1,10 @@
 from . import db
 from flask_login import UserMixin
 from sqlalchemy import DDL, event
+from .help_functions import RoleMixin
 
 
-class Usuario(db.Model, UserMixin):
+class Usuario(db.Model, UserMixin, RoleMixin):
     __tablename__ = 'usuario'
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(80), nullable=False)
