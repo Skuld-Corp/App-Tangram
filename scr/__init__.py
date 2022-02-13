@@ -4,16 +4,11 @@ from flask_login import LoginManager
 
 
 db = SQLAlchemy()
-scheme = 'bancoskuld'
-db_senha = 'teamo123'
-db_user = 'root'
 
 
 def cria_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = "secreto"
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{db_user}:{db_senha}@127.0.0.1:3306/{scheme}'
-    app.config['SQALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config.from_pyfile('config.py')
 
     with app.app_context():
         db.init_app(app)
