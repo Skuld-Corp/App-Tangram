@@ -1,4 +1,5 @@
 # App-Tangram
+
 <p align="center">
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -14,7 +15,7 @@
 <br>
 
 <p align="center">
-  <img alt="OriginSix" src=".github/preview.png" width="100%">
+  <img src="/scr/static/img/tg-logo.png" alt="Tamgram" widith="100%">
 </p>
 
 ## 🚀 Tecnologias
@@ -34,18 +35,9 @@ Contribuintes
 
 Utilitários
 
-
-
 ## 💻 Projeto
 
 A tangram é uma startup institucional que foca na educação voltada para matemática financeira, a ideia principal é a criação de uma
 plataforma gamificada que concede o aluno aprender matemática de uma maneira divertida e descontraída. O projeto é totalmente voluntário e visa agregar conhecimentos tecnológicos e aprimorar o uso das ferramentas de desenvolvimento.
 
 ## 🔖 Layout
-
-
-
-
-
-
-
