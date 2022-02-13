@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 
 views = Blueprint('views', __name__)
 
 
+@login_required
 @views.route('/')
 def home():
     return render_template('home.html', user=current_user)
