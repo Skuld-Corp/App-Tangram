@@ -7,7 +7,10 @@ views = Blueprint('views', __name__)
 
 @views.route('/')
 def home():
-    return render_template('home.html', user=current_user)
+    if not current_user.is_authenticated:
+        return redirect(url_for('views.login'))
+    else:
+        return render_template('home.html', user=current_user)
 
 
 @views.route('/cadastro')
