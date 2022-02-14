@@ -49,26 +49,27 @@ def cadastrar():
 
 @auth.route('/login-confirm', methods=['POST', ])
 def login_confirm():
-    email_net = request.form.get('email')
-    senha_net = request.form.get('password')
+    if request.method == "POST":
+        email_net = request.form.get('email')
+        senha_net = request.form.get('password')
 
-    usuario = Usuario.query.filter_by(email=email_net).first()
+        usuario = Usuario.query.filter_by(email=email_net).first()
 
-    if usuario:
-        if bcrypt.checkpw(senha_net.encode('utf-8'), usuario.senha):
-            flash('Logado com sucesso!', category='sucess')
-            login_user(usuario, remember=True)
-            return redirect(url_for('views.home'))
+        if usuario:
+            if bcrypt.checkpw(senha_net.encode('utf-8'), usuario.senha):
+                flash('Logado com sucesso!', category='sucess')
+                login_user(usuario, remember=True)
+                return redirect(url_for('views.home'))
+            else:
+                flash('Senha digitada inválida!', category='error')
+                return redirect(url_for('views.login'))
         else:
-            flash('Senha digitada inválida!', category='error')
+            # verificação "atoa" para evitar > "ACCOUNT ENUMERATION VIA TIMING ATTACKS"
+            senha_hash = "$2a$12$zlU2BApnYUfTsxOUgOQ8wuk.cFsFqFq2g.d/DC3X2N74TOa7yF27e"
+            if bcrypt.checkpw(senha_net.encode('utf-8'), senha_hash.encode('utf-8')):
+                pass
+            flash('Usuário não encontrado!', category='error')
             return redirect(url_for('views.login'))
-    else:
-        # verificação "atoa" para evitar > "ACCOUNT ENUMERATION VIA TIMING ATTACKS"
-        senha_hash = "$2a$12$zlU2BApnYUfTsxOUgOQ8wuk.cFsFqFq2g.d/DC3X2N74TOa7yF27e"
-        if bcrypt.checkpw(senha_net.encode('utf-8'), senha_hash.encode('utf-8')):
-            pass
-        flash('Usuário não encontrado!', category='error')
-        return redirect(url_for('views.login'))
 
 
 @auth.route('/logout')
@@ -82,35 +83,37 @@ def logout():
 @auth.route('/depositar', methods=['POST',])
 @login_required
 def deposita():
-    eh_aluno = current_user.role
-    if eh_aluno:
-        saldo_a_depositar = request.form.get('saldo_deposita')
-        carteira_do_usuario = TangramCoin.query.filter_by(player_id=current_user.id).first()
-        carteira_do_usuario.saldo += int(saldo_a_depositar)
-        db.session.add(carteira_do_usuario)
-        db.session.commit()
-        flash("Saldo depositado com sucesso!", category='sucess')
-        return redirect(url_for('views.home'))
-    else:
-        flash("Ops algo deu errado!", category='error')
-        return redirect(url_for('views.home'))
+    if request.method == "POST":
+        eh_aluno = current_user.role
+        if eh_aluno:
+            saldo_a_depositar = request.form.get('saldo_deposita')
+            carteira_do_usuario = TangramCoin.query.filter_by(player_id=current_user.id).first()
+            carteira_do_usuario.saldo += int(saldo_a_depositar)
+            db.session.add(carteira_do_usuario)
+            db.session.commit()
+            flash("Saldo depositado com sucesso!", category='sucess')
+            return redirect(url_for('views.home'))
+        else:
+            flash("Ops algo deu errado!", category='error')
+            return redirect(url_for('views.home'))
 
 
 @auth.route('/sacar', methods=['POST',])
 @login_required
 def sacar():
-    eh_aluno = current_user.role
-    if eh_aluno:
-        saldo_a_sacar = int(request.form.get('saldo_sacar'))
-        carteira_do_usuario = TangramCoin.query.filter_by(player_id=current_user.id).first()
-        if tem_saldo_suficiente(carteira_do_usuario.saldo, saldo_a_sacar):
-            carteira_do_usuario.saldo -= saldo_a_sacar
-            db.session.add(carteira_do_usuario)
-            db.session.commit()
-            flash("Saldo sacado com sucesso!", category='sucess')
+    if request.method == "POST":
+        eh_aluno = current_user.role
+        if eh_aluno:
+            saldo_a_sacar = int(request.form.get('saldo_sacar'))
+            carteira_do_usuario = TangramCoin.query.filter_by(player_id=current_user.id).first()
+            if tem_saldo_suficiente(carteira_do_usuario.saldo, saldo_a_sacar):
+                carteira_do_usuario.saldo -= saldo_a_sacar
+                db.session.add(carteira_do_usuario)
+                db.session.commit()
+                flash("Saldo sacado com sucesso!", category='sucess')
+            else:
+                flash("Saldo Insuficiente", category='error')
+            return redirect(url_for('views.home'))
         else:
-            flash("Saldo Insuficiente", category='error')
-        return redirect(url_for('views.home'))
-    else:
-        flash("Ops algo deu errado!", category='error')
-        return redirect(url_for('views.home'))
+            flash("Ops algo deu errado!", category='error')
+            return redirect(url_for('views.home'))
