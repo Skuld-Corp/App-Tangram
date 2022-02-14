@@ -47,7 +47,7 @@ def cadastrar():
             return redirect(url_for('views.home'))
 
 
-@auth.route('/login-confirm', methods=['post', ])
+@auth.route('/login-confirm', methods=['POST', ])
 def login_confirm():
     email_net = request.form.get('email')
     senha_net = request.form.get('password')
@@ -79,7 +79,7 @@ def logout():
     return redirect(url_for('views.home'))
 
 
-@auth.route('/depositar', methods=['post',])
+@auth.route('/depositar', methods=['POST',])
 @login_required
 def deposita():
     eh_aluno = current_user.role
@@ -96,7 +96,7 @@ def deposita():
         return redirect(url_for('views.home'))
 
 
-@auth.route('/sacar', methods=['post',])
+@auth.route('/sacar', methods=['POST',])
 @login_required
 def sacar():
     eh_aluno = current_user.role
