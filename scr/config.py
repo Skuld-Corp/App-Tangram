@@ -1,3 +1,3 @@
 SECRET_KEY = "secreto"
-SQLALCHEMY_DATABASE_URI = "postgres://kjpagsnneweohn:bc8265fb587d3d21fa6d7ce1120a6b77ef20806bfea102d0318f2b1cf4bfa486@ec2-44-194-113-156.compute-1.amazonaws.com:5432/d9blbach5en55p"
+SQLALCHEMY_DATABASE_URI = "postgres://sbcrkyprfsgwmv:9a1aa2b938b5ecec2a48e1bea802fa7e14ee92e8668bd2e5528572543792b32c@ec2-34-206-148-196.compute-1.amazonaws.com:5432/d9btqakpo2re4o"
 SQALCHEMY_TRACK_MODIFICATIONS = False
