@@ -55,7 +55,7 @@ def login_confirm():
     usuario = Usuario.query.filter_by(email=email_net).first()
 
     if usuario:
-        if bcrypt.checkpw(senha_net.encode('utf-8'), usuario.senha.encode('utf-8')):
+        if bcrypt.checkpw(senha_net.encode('utf-8'), usuario.senha):
             flash('Logado com sucesso!', category='sucess')
             login_user(usuario, remember=True)
             return redirect(url_for('views.home'))

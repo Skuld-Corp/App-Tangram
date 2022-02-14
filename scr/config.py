@@ -1,3 +1,3 @@
 SECRET_KEY = "secreto"
-SQLALCHEMY_DATABASE_URI = f'mysql://root:teamo123@127.0.0.1:3306/bancoskuld'
+SQLALCHEMY_DATABASE_URI = "postgresql://postgres:teamo123@localhost/app-tangram"
 SQALCHEMY_TRACK_MODIFICATIONS = False

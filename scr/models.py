@@ -9,7 +9,7 @@ class Usuario(db.Model, UserMixin, RoleMixin):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    senha = db.Column(db.String(120), nullable=False)
+    senha = db.Column(db.LargeBinary)
     role = db.Column(db.Integer, db.ForeignKey('roles.id'))
     saldo = db.relationship('TangramCoin')
 
@@ -31,21 +31,30 @@ class Roles(db.Model):
 
 
 class TangramCoin(db.Model):
-    __tablename__ = 'tangramCoin'
+    __tablename__ = 'tangramcoin'
     id = db.Column(db.Integer, primary_key=True)
     saldo = db.Column(db.Integer)
     player_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
 
 
+inserir_coins_iniciais_func = DDL("""\
+    CREATE OR REPLACE FUNCTION inserir_coins_iniciais_func() 
+    RETURNS trigger  AS $$
+    BEGIN
+        IF (NEW.role = '3') THEN
+		    INSERT INTO tangramCoin (player_id, saldo) values (NEW.id, '100');
+	    END IF;
+	RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql ; 
+""")
+
 trigger_create_coin = DDL('''\
     CREATE TRIGGER CoinsIniciais AFTER INSERT
     ON usuario 
     FOR EACH ROW 
-        begin
-            If (NEW.`role` = '3') THEN
-		        INSERT INTO tangramcoin (player_id, saldo) values (NEW.id, '100');
-	        END IF;
-	end;
+    EXECUTE PROCEDURE inserir_coins_iniciais_func();
 ''')
 
+event.listen(Usuario.__table__, "after_create", inserir_coins_iniciais_func)
 event.listen(Usuario.__table__, "after_create", trigger_create_coin)
