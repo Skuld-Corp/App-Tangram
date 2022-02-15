@@ -1,6 +1,7 @@
 from scr import cria_app
+import os
 
-env = "prod"
+env = os.getenv("env")
 
 app = cria_app(env)
 
