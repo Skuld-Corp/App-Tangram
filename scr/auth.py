@@ -148,7 +148,7 @@ def resetar_senha():
                     url_site + url_for("views.nova_senha_get", id=(str(chave)))]
         email_cadastrado = request.form.get("email")
         yag.send(email_cadastrado, 'Reset your password', contents)
-        flash(usuario.nome + ", Confira seu Email para trocar de senha.  Link expira em 45 mins!", category='success')
+        flash(usuario.nome + ", Confira seu Email para trocar de senha, verifique o spam também! Link expira em 45 mins!", category='success')
         return redirect(url_for("views.home"))
     else:
         flash("Email não encontrado!", category='error')
