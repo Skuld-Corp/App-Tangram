@@ -7,14 +7,9 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 
 
-
 def cria_app(env):
     app = Flask(__name__)
-    if env == "prod":
-        app.config.from_pyfile('config.py')
-    else:
-        app.config.from_pyfile('config_dev.py')
-
+    app.config.from_pyfile('config.py')
     migrate = Migrate(app, db)
 
     with app.app_context():

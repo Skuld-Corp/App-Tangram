@@ -1,0 +1,15 @@
+{% extends "template_dashboard.html" %}
+{% block title %} Esqueceu Senha {% endblock %}
+{% block conteudo %}
+<div>{% include 'message.html' %}</div>
+  </br>
+  <h1>Troca de senha </h1>
+  </br>
+  <form role="form" method="POST" action="{{ url_for('auth.resetar_senha') }}">
+    <div class="mb-3">
+      <label for="Email" class="form-label">Endereço de Email</label>
+      <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" name="email" placeholder="Seu Email" required>
+    </div>
+  <button type="submit" class="btn btn-primary">Confirmar</button>
+  </form>
+{% endblock %}
