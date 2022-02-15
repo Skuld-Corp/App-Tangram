@@ -147,9 +147,13 @@ def resetar_senha():
         contents = ['Por favor acesse essa url para trocar a senha:',
                     url_site + url_for("views.nova_senha_get", id=(str(chave)))]
         email_cadastrado = request.form.get("email")
-        yag.send(email_cadastrado, 'Reset your password', contents)
-        flash(usuario.nome + ", Confira seu Email para trocar de senha, verifique o spam também! Link expira em 45 mins!", category='success')
-        return redirect(url_for("views.home"))
+        try:
+            yag.send(email_cadastrado, 'Reset your password', contents)
+            flash(usuario.nome + ", Confira seu Email para trocar de senha, verifique o spam também! Link expira em 45 mins!", category='success')
+            return redirect(url_for("views.home"))
+        except:
+            flash(usuario.nome + ", Ocorreu algum erro ao enviar o Email, verifique se o seu Email é válido!", category='error')
+            return redirect(url_for("views.home"))
     else:
         flash("Email não encontrado!", category='error')
         return redirect(url_for('views.reset_senha'))
