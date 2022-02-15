@@ -10,4 +10,8 @@ secreto = os.getenv("secret_key")
 SECRET_KEY = secreto
 SQLALCHEMY_DATABASE_URI = uri
 SQALCHEMY_TRACK_MODIFICATIONS = False
-DEBUG = False
+if os.getenv("env") == "prod":
+    DEBUG = False
+else:
+    DEBUG = True
+    TESTING = True

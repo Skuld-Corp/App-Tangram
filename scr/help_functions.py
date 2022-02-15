@@ -1,13 +1,15 @@
+import uuid
+import sys
+import os
+
+PY2 = sys.version_info[0] == 2
+
+
 def tem_saldo_suficiente(saldo1, saldo2):
     retorno = False
     if saldo1 >= saldo2:
         retorno = True
     return retorno
-
-
-import sys
-
-PY2 = sys.version_info[0] == 2
 
 
 class RoleMixin(object):
@@ -23,3 +25,19 @@ class RoleMixin(object):
     @property
     def has_role(self):
         return self.role
+
+
+def gerar_key():
+    return uuid.uuid4()
+
+
+def email_user():
+    return os.getenv("email_user")
+
+
+def email_passw():
+    return os.getenv("email_password")
+
+
+def url_do_site():
+    return os.getenv("url_site")
