@@ -1,3 +1,5 @@
+import datetime as datetime
+
 from . import db
 from flask_login import UserMixin
 from sqlalchemy import DDL, event
@@ -58,3 +60,13 @@ trigger_create_coin = DDL('''\
 
 event.listen(Usuario.__table__, "after_create", inserir_coins_iniciais_func)
 event.listen(Usuario.__table__, "after_create", trigger_create_coin)
+
+
+class SenhaReset(db.Model):
+    __tablename__ = "senhareset"
+    id = db.Column(db.Integer, primary_key=True)
+    reset_key = db.Column(db.String(128), unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    datetime = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
+    user = db.relationship('Usuario', lazy='joined')
+    has_activated = db.Column(db.Boolean, default=False)

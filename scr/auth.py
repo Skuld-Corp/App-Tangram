@@ -1,9 +1,12 @@
 import sqlalchemy.exc
-from flask import Blueprint, request, redirect, url_for, flash
-from .models import Usuario, db, TangramCoin
-from flask_login import login_required, login_user, logout_user, current_user
+import datetime
 import bcrypt
-from .help_functions import tem_saldo_suficiente
+import yagmail
+from flask import Blueprint, request, redirect, url_for, flash
+from .models import Usuario, db, TangramCoin, SenhaReset
+from flask_login import login_required, login_user, logout_user, current_user
+from .help_functions import tem_saldo_suficiente, gerar_key, email_user, email_passw, url_do_site
+
 
 auth = Blueprint('auth', __name__)
 
@@ -32,9 +35,9 @@ def cadastrar():
                     # cria professor se for admin
                     if current_user.has_role == 1:
                         novo_professor = Usuario(nome=nome, email=email, senha=senha_cripto, role=2)
-                        flash('Professor cadastrado com sucesso!', category="success")
                         db.session.add(novo_professor)
                         db.session.commit()
+                        flash('Professor cadastrado com sucesso!', category="success")
                 else:
                     # aluno default
                     novo_usuario = Usuario(nome=nome, email=email, senha=senha_cripto, role=3)
@@ -117,3 +120,61 @@ def sacar():
         else:
             flash("Ops algo deu errado!", category='error')
             return redirect(url_for('views.home'))
+
+
+@auth.route('/resetar_senha', methods=['POST',])
+def resetar_senha():
+    email = request.form.get('email')
+    usuario = Usuario.query.filter_by(email=email).first()
+    if usuario:
+        ja_tem_senha_reset = SenhaReset.query.filter_by(user_id = usuario.id).first()
+        if ja_tem_senha_reset:
+            if ja_tem_senha_reset.has_activated is False:
+                ja_tem_senha_reset.datetime = datetime.datetime.now()
+                chave = ja_tem_senha_reset.reset_key
+            else:
+                chave = gerar_key()
+                ja_tem_senha_reset.reset_key = chave
+                ja_tem_senha_reset.datetime = datetime.datetime.now()
+                ja_tem_senha_reset.has_activated = False
+        else:
+            chave = gerar_key()
+            user_reset = SenhaReset(reset_key=chave, user_id=usuario.id)
+            db.session.add(user_reset)
+        db.session.commit()
+        yag = yagmail.SMTP(email_user(), email_passw())
+        url_site = url_do_site()
+        contents = ['Por favor acesse essa url para trocar a senha:',
+                    url_site + url_for("views.nova_senha_get", id=(str(chave)))]
+        email_cadastrado = request.form.get("email")
+        yag.send(email_cadastrado, 'Reset your password', contents)
+        flash(usuario.nome + ", Confira seu Email para trocar de senha.  Link expira em 45 mins!", category='success')
+        return redirect(url_for("views.home"))
+    else:
+        flash("Email não encontrado!", category='error')
+        return redirect(url_for('views.reset_senha'))
+
+
+@auth.route("/troca-senha/<id>", methods=['POST',])
+def nova_senha_post(id):
+    if request.form["senha1"] != request.form["senha2"]:
+        flash("As senhas estão diferentes", category="error")
+        return redirect(url_for("views.nova_senha_get", id=id))
+    if len(request.form["senha1"]) < 3:
+        flash("Senha muito curta!", category="error")
+        return redirect(url_for("views.nova_senha_get", id=id))
+    usuario_reset = SenhaReset.query.filter_by(reset_key=id).one()
+    try:
+        salt = bcrypt.gensalt()
+        senha1 = request.form.get("senha1")
+        senha_cripto = bcrypt.hashpw(senha1.encode('utf-8'), salt)
+        usuario = Usuario.query.filter_by(id=usuario_reset.user_id).update({'senha': senha_cripto})
+        db.session.commit()
+    except sqlalchemy.exc.IntegrityError:
+        flash("Aconteceu algum erro!", category="error")
+        db.session.rollback()
+        return redirect(url_for("views.home"))
+    usuario_reset.has_activated = True
+    db.session.commit()
+    flash("Senha trocado com sucesso!", category="success")
+    return redirect(url_for("views.home"))

@@ -4,3 +4,4 @@ __pycache__/
 scr/__pycache__/
 .vscode/
 config.py
+.env
