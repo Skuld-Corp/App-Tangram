@@ -1,15 +1,15 @@
 import pytz
 from flask import Blueprint, render_template, flash, redirect, url_for
-from flask_login import current_user
+from flask_login import current_user, login_required
 from .models import SenhaReset
 import datetime
 
 views = Blueprint('views', __name__)
 
-
 @views.route('/')
 def home():
     if not current_user.is_authenticated:
+        flash("Por favor, logue para acessar essa página!")
         return redirect(url_for('views.login'))
     else:
         return render_template('home.html', user=current_user)
@@ -56,3 +56,12 @@ def nova_senha_get(id):
     else:
         flash("Não foi possível localizar esse endereço", category="error")
         return redirect(url_for("views.home"))
+
+
+@views.route('/perfil')
+def perfil():
+    if not current_user.is_authenticated:
+        flash("Por favor, logue para acessar essa página!")
+        return redirect(url_for('views.login'))
+    else:
+        return render_template('perfil.html', user=current_user)
