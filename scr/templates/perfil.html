@@ -1,0 +1,33 @@
+{% extends "template_dashboard.html" %}
+{% block title %} {{ user.nome }} {% endblock %}
+{% block conteudo %}
+<body>
+    <header>
+        {% include 'header.html' %}
+    </header>
+    <div> {% include 'message.html' %} </div>
+    <main>
+        <form class="row g-3" method="post" action="{{ url_for('auth.atualizar_perfil') }}">
+            <div class="col-12">
+                <label for="inputNome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="inputNome" name="nome" placeholder="{{ user.nome }}">
+            </div>
+            <div class="col-md-6">
+              <label for="inputEmail4" class="form-label">Email</label>
+              <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="{{ user.email }}">
+            </div>
+            <div class="col-md-6">
+              <label for="inputPassword4" class="form-label">Senha</label>
+              <input type="password" class="form-control" name="senha" id="inputPassword4" placeholder="Senha com mais de 3 dígitos">
+            </div>
+            <div class="col-12">
+                <input type="submit" class="btn btn-primary" value="Atualizar Perfil" name="atualiza">
+                <input type="submit" class="btn btn-danger" value="Deletar a conta" name="deleta">
+            </div>
+          </form>
+    </main>
+    <footer>
+        {% include 'footer.html' %}
+    </footer>
+</body>
+{% endblock %}

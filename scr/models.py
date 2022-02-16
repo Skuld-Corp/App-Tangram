@@ -13,7 +13,7 @@ class Usuario(db.Model, UserMixin, RoleMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha = db.Column(db.LargeBinary)
     role = db.Column(db.Integer, db.ForeignKey('roles.id'))
-    saldo = db.relationship('TangramCoin')
+    saldo = db.relationship('TangramCoin', passive_deletes=True)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -36,7 +36,7 @@ class TangramCoin(db.Model):
     __tablename__ = 'tangramcoin'
     id = db.Column(db.Integer, primary_key=True)
     saldo = db.Column(db.Integer)
-    player_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    player_id = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'))
 
 
 inserir_coins_iniciais_func = DDL("""\
@@ -66,7 +66,7 @@ class SenhaReset(db.Model):
     __tablename__ = "senhareset"
     id = db.Column(db.Integer, primary_key=True)
     reset_key = db.Column(db.String(128), unique=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'), nullable=False)
     datetime = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
-    user = db.relationship('Usuario', lazy='joined')
+    user = db.relationship('Usuario', lazy='joined', passive_deletes=True)
     has_activated = db.Column(db.Boolean, default=False)

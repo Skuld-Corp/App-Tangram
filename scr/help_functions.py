@@ -1,6 +1,8 @@
 import uuid
 import sys
 import os
+from flask_login import current_user
+import bcrypt
 
 PY2 = sys.version_info[0] == 2
 
@@ -41,3 +43,27 @@ def email_passw():
 
 def url_do_site():
     return os.getenv("url_site")
+
+
+def campo_eh_vazio(campo):
+    vazio = True
+    if not campo == '':
+        vazio = False
+    return vazio
+
+
+def atualizar_perfil_func(nome, email, senha):
+    houve_atualizacao_de_dados = False
+    if not campo_eh_vazio(nome):
+        current_user.nome = nome
+        houve_atualizacao_de_dados = True
+    if not campo_eh_vazio(email):
+        current_user.email = email
+        houve_atualizacao_de_dados = True
+    if not campo_eh_vazio(senha):
+        if len(senha) > 3:
+            salt = bcrypt.gensalt()
+            senha_cripto = bcrypt.hashpw(senha.encode('utf-8'), salt)
+            current_user.senha = senha_cripto
+            houve_atualizacao_de_dados = True
+    return houve_atualizacao_de_dados

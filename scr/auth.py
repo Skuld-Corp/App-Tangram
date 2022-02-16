@@ -5,7 +5,7 @@ import yagmail
 from flask import Blueprint, request, redirect, url_for, flash
 from .models import Usuario, db, TangramCoin, SenhaReset
 from flask_login import login_required, login_user, logout_user, current_user
-from .help_functions import tem_saldo_suficiente, gerar_key, email_user, email_passw, url_do_site
+from .help_functions import tem_saldo_suficiente, gerar_key, email_user, email_passw, url_do_site, atualizar_perfil_func
 
 
 auth = Blueprint('auth', __name__)
@@ -182,3 +182,32 @@ def nova_senha_post(id):
     db.session.commit()
     flash("Senha trocado com sucesso!", category="success")
     return redirect(url_for("views.home"))
+
+
+@auth.route('/atualizar-perfil', methods=['POST',])
+def atualizar_perfil():
+    if request.form.get('atualiza') == 'Atualizar Perfil':
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+        try:
+            if atualizar_perfil_func(nome, email, senha):
+                db.session.commit()
+                flash("Perfil atualizado com sucesso!", category="success")
+            else:
+                flash("Nada foi atualizado", category="warming")
+        except sqlalchemy.exc.IntegrityError:
+            flash("Email já em uso", category="error")
+            db.session.rollback()
+        return redirect(url_for('views.perfil'))
+    if request.form.get('deleta') == 'Deletar a conta':
+        try:
+            user = db.session.query(Usuario).filter(Usuario.id == current_user.id).first()
+            db.session.delete(user)
+            db.session.commit()
+            flash("Conta deletado com sucesso!", category="success")
+            return redirect(url_for('views.login'))
+        except sqlalchemy.exc.IntegrityError:
+            flash("Aconteceu algum erro", category="error")
+            db.session.rollback()
+        return redirect(url_for('views.perfil'))
