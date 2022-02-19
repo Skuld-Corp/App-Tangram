@@ -1,0 +1,172 @@
+.bgdash {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1001%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/rect%3e%3cpath d='M1094.11 442.57 a7.45 7.45 0 1 0 14.9 0 a7.45 7.45 0 1 0 -14.9 0z' fill='rgba(179%2c 222%2c 255%2c 1)'%3e%3c/path%3e%3cpath d='M478.6 357.48a12.88 12.88 0 1 0-24.29-8.58z' fill='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M1326.81 157.77 a19.67 19.67 0 1 0 39.34 0 a19.67 19.67 0 1 0 -39.34 0z' stroke='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M1339.33 280.38L1365.22 280.38L1365.22 329.06L1339.33 329.06z' fill='rgba(179%2c 222%2c 255%2c 1)'%3e%3c/path%3e%3cpath d='M866.89 423.59 a38.92 38.92 0 1 0 77.84 0 a38.92 38.92 0 1 0 -77.84 0z' stroke='rgba(179%2c 222%2c 255%2c 1)'%3e%3c/path%3e%3cpath d='M1020.76 221.67a4.45 4.45 0 1 0 0.61-8.88z' stroke='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M103.05 198.88 a9.9 9.9 0 1 0 19.8 0 a9.9 9.9 0 1 0 -19.8 0z' fill='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M484.14 261.55L528.62 261.55L528.62 306.03L484.14 306.03z' fill='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M459.21 462.94 a54.24 54.24 0 1 0 108.48 0 a54.24 54.24 0 1 0 -108.48 0z' stroke='rgba(36%2c 35%2c 35%2c 1)'%3e%3c/path%3e%3cpath d='M978.93 457.48L1001.07 457.48L1001.07 479.62L978.93 479.62z' fill='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M698.59 461.89L719.97 461.89L719.97 508.5L698.59 508.5z' stroke='rgba(36%2c 35%2c 35%2c 1)'%3e%3c/path%3e%3cpath d='M367.39 274.36 a31.93 31.93 0 1 0 63.86 0 a31.93 31.93 0 1 0 -63.86 0z' stroke='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M873.11 361.32L887.89 361.32L887.89 376.1L873.11 376.1z' stroke='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M825.36 6.63L834.52 6.63L834.52 15.63L825.36 15.63z' fill='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M198.14 90.47a30.8 30.8 0 1 0-22.83 57.21z' stroke='rgba(179%2c 222%2c 255%2c 1)'%3e%3c/path%3e%3cpath d='M249.31 424.18 a12.42 12.42 0 1 0 24.84 0 a12.42 12.42 0 1 0 -24.84 0z' stroke='rgba(36%2c 35%2c 35%2c 1)'%3e%3c/path%3e%3cpath d='M1345.5 167.41a10.77 10.77 0 1 0 1.78-21.47z' stroke='rgba(36%2c 35%2c 35%2c 1)'%3e%3c/path%3e%3cpath d='M212.98 65.32L255.71 65.32L255.71 87.41L212.98 87.41z' fill='rgba(36%2c 35%2c 35%2c 1)'%3e%3c/path%3e%3cpath d='M1188.92 276.99L1200.24 276.99L1200.24 316.57L1188.92 316.57z' fill='rgba(179%2c 222%2c 255%2c 1)'%3e%3c/path%3e%3cpath d='M1128.75 220.21a34.38 34.38 0 1 0 65.18-21.92z' fill='rgba(179%2c 222%2c 255%2c 1)'%3e%3c/path%3e%3cpath d='M297.25 207.99L352.93 207.99L352.93 263.67L297.25 263.67z' stroke='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M1257.97 326.81L1301.38 326.81L1301.38 354.75L1257.97 354.75z' stroke='rgba(36%2c 35%2c 35%2c 1)'%3e%3c/path%3e%3cpath d='M90.45 61.48L96.7 61.48L96.7 107.97L90.45 107.97z' stroke='rgba(179%2c 222%2c 255%2c 1)'%3e%3c/path%3e%3cpath d='M378.78 515.97L410.23 515.97L410.23 524.8L378.78 524.8z' stroke='rgba(36%2c 35%2c 35%2c 1)'%3e%3c/path%3e%3cpath d='M842.59 95.92 a43.62 43.62 0 1 0 87.24 0 a43.62 43.62 0 1 0 -87.24 0z' stroke='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M413.69 260.69L441.7 260.69L441.7 288.7L413.69 288.7z' fill='rgba(36%2c 35%2c 35%2c 1)'%3e%3c/path%3e%3cpath d='M1097.09 109.35 a20.17 20.17 0 1 0 40.34 0 a20.17 20.17 0 1 0 -40.34 0z' fill='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M1297.15 170.31L1305.79 170.31L1305.79 178.95L1297.15 178.95z' stroke='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M572.66 482.94 a53.38 53.38 0 1 0 106.76 0 a53.38 53.38 0 1 0 -106.76 0z' fill='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3cpath d='M201.05 190.1L220.84 190.1L220.84 194.17L201.05 194.17z' stroke='rgba(36%2c 35%2c 35%2c 1)'%3e%3c/path%3e%3cpath d='M620.59 38.68L625.66 38.68L625.66 80.86L620.59 80.86z' stroke='rgba(179%2c 222%2c 255%2c 1)'%3e%3c/path%3e%3cpath d='M923.47 477.72a50.38 50.38 0 1 0-88.07-48.95z' fill='rgba(36%2c 35%2c 35%2c 1)'%3e%3c/path%3e%3cpath d='M622.37 497.01a32.67 32.67 0 1 0-61.02 23.36z' fill='rgba(41%2c 155%2c 243%2c 1)'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1001'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+}
+.titulodash {
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+}
+/* graph icon */
+body {
+  background: #dcedfe;
+  overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+.circle {
+  width: 158px;
+  height: 158px;
+  margin: 50px auto;
+  text-align: center;
+  background: #242323;
+  overflow: hidden;
+
+  border-radius: 50%;
+  border: 5px solid #299bf3;
+}
+
+#graph {
+  position: relative;
+  z-index: 1;
+  width: 125px;
+  height: 90px;
+  margin: 30px auto 0;
+}
+
+#graph div {
+  position: absolute;
+  bottom: 16px;
+  width: 9px;
+  height: 10px;
+  background: #fff;
+}
+
+#graph div:nth-child(n + 1) {
+  height: 16px;
+  left: 24px;
+
+  animation: chartIt 2s 1 ease-in-out 0s;
+  -webkit-animation: chartIt 2s infinite ease-in-out 0s;
+  animation-direction: alternate-reverse;
+}
+
+#graph div:nth-child(n + 2) {
+  height: 26px;
+  left: 37px;
+
+  animation: chartIt 2s infinite ease-in-out 0.25s;
+  -webkit-animation: chartIt 2s infinite ease-in-out 0.25s;
+  animation-direction: alternate-reverse;
+}
+
+#graph div:nth-child(n + 3) {
+  height: 42px;
+  left: 50px;
+
+  animation: chartIt 2s 1 ease-in-out 0.5s;
+  -webkit-animation: chartIt 2s infinite ease-in-out 0.5s;
+  animation-direction: alternate-reverse;
+}
+
+#graph div:nth-child(n + 4) {
+  height: 37px;
+  left: 63px;
+
+  animation: chartIt 2s infinite ease-in-out 0.75s;
+  -webkit-animation: chartIt 2s infinite ease-in-out 0.75s;
+  animation-direction: alternate-reverse;
+}
+
+#graph div:nth-child(n + 5) {
+  height: 50px;
+  left: 76px;
+
+  animation: chartIt 2s infinite ease-in-out 1s;
+  -webkit-animation: chartIt 2s infinite ease-in-out 1s;
+  animation-direction: alternate-reverse;
+}
+
+#graph div:nth-child(n + 6) {
+  height: 60px;
+  left: 89px;
+
+  animation: chartIt 2s infinite ease-in-out 1.25s;
+  -webkit-animation: chartIt 2s infinite ease-in-out 1.25s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes chartIt {
+  0% {
+    max-height: 60px;
+  }
+  50% {
+    max-height: 0px;
+  }
+  100% {
+    max-height: 60px;
+  }
+}
+
+@-webkit-keyframes chartIt {
+  0% {
+    max-height: 60px;
+  }
+  50% {
+    max-height: 0px;
+  }
+  100% {
+    max-height: 60px;
+  }
+}
+
+.doarbtn,
+.inventirbtn {
+  border: none;
+  color: #090909;
+  padding: 0.35em 0.85em;
+  font-size: 18px;
+  border-radius: 0.5em;
+  background: #e8e8e8;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s;
+  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+}
+
+.doarbtn:active {
+  color: #666;
+  box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+}
+.doarbtn:hover {
+  color: #299bf3;
+}
+.inventirbtn:active {
+  color: #666;
+  box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+}
+.inventirbtn:hover {
+  color: #299bf3;
+}
+.quizbtn {
+  color: black;
+  background: #299bf3;
+  font-family: inherit;
+  padding: 0.6em 1.3em;
+  font-weight: 900;
+  font-size: 18px;
+  border: 3px solid black;
+  border-radius: 0.4em;
+  box-shadow: 0.1em 0.1em;
+}
+
+.quizbtn:hover {
+  transform: translate(-0.05em, -0.05em);
+  box-shadow: 0.15em 0.15em;
+}
+
+.quizbtn:active {
+  transform: translate(0.05em, 0.05em);
+  box-shadow: 0.05em 0.05em;
+}
