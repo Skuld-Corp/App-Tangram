@@ -67,3 +67,11 @@ def atualizar_perfil_func(nome, email, senha):
             current_user.senha = senha_cripto
             houve_atualizacao_de_dados = True
     return houve_atualizacao_de_dados
+
+
+def eh_menor_que_essa_quantidade_de_caracters(palavra, quantidade):
+    tamanho = len(palavra)
+    eh_menor = False
+    if tamanho < quantidade:
+        eh_menor = True
+    return eh_menor

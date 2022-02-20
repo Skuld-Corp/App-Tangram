@@ -65,3 +65,16 @@ def perfil():
         return redirect(url_for('views.login'))
     else:
         return render_template('perfil.html', user=current_user)
+
+
+@views.route('/nova-pergunta')
+def nova_pergunta():
+    if not current_user.is_authenticated:
+        flash("Por favor, logue para acessar essa página!")
+        return redirect(url_for('views.login'))
+    else:
+        if current_user.has_role == 2:
+            return render_template('criar_perguntas.html', user=current_user)
+        else:
+            flash("Você não tem permissão para fazer isso!", category="error")
+            return redirect(url_for('views.home'))

@@ -39,6 +39,30 @@ class TangramCoin(db.Model):
     player_id = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'))
 
 
+class SenhaReset(db.Model):
+    __tablename__ = "senhareset"
+    id = db.Column(db.Integer, primary_key=True)
+    reset_key = db.Column(db.String(128), unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'), nullable=False)
+    datetime = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
+    user = db.relationship('Usuario', lazy='joined', passive_deletes=True)
+    has_activated = db.Column(db.Boolean, default=False)
+
+
+class PerguntasQuiz(db.Model):
+    __tablename__ = "perguntasquiz"
+    id = db.Column(db.Integer, primary_key=True)
+    professor_id = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'))
+    pergunta_titulo = db.Column(db.String(80))
+    pergunta = db.Column(db.Text)
+    resp_1 = db.Column(db.Text)
+    resp_2 = db.Column(db.Text)
+    resp_3 = db.Column(db.Text)
+    resp_4 = db.Column(db.Text)
+    resposta_certa = db.Column(db.Integer)
+    questao_dificuldade = db.Column(db.String(20))
+
+
 inserir_coins_iniciais_func = DDL("""\
     CREATE OR REPLACE FUNCTION inserir_coins_iniciais_func() 
     RETURNS trigger  AS $$
@@ -62,11 +86,3 @@ event.listen(Usuario.__table__, "after_create", inserir_coins_iniciais_func)
 event.listen(Usuario.__table__, "after_create", trigger_create_coin)
 
 
-class SenhaReset(db.Model):
-    __tablename__ = "senhareset"
-    id = db.Column(db.Integer, primary_key=True)
-    reset_key = db.Column(db.String(128), unique=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'), nullable=False)
-    datetime = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
-    user = db.relationship('Usuario', lazy='joined', passive_deletes=True)
-    has_activated = db.Column(db.Boolean, default=False)
