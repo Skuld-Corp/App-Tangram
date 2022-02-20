@@ -19,9 +19,7 @@ def home():
         return render_template('home.html', user=current_user, desempenho=desempenho)
 
 
-@views.route('/cadastro')
-def cadastro():
-    return render_template('cadastro.html', user=current_user)
+
 
 
 @views.route('/login')
