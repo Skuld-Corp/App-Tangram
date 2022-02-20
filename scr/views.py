@@ -1,7 +1,7 @@
 import pytz
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import SenhaReset, db, PerguntasQuiz, PerguntasRespondidas
+from .models import SenhaReset, db, PerguntasQuiz, PerguntasRespondidas, PerguntasDesempenho
 import datetime
 from random import choice
 
@@ -15,7 +15,8 @@ def home():
         flash("Por favor, logue para acessar essa página!")
         return redirect(url_for('views.login'))
     else:
-        return render_template('home.html', user=current_user)
+        desempenho = PerguntasDesempenho.query.filter_by(aluno_id=current_user.id).first()
+        return render_template('home.html', user=current_user, desempenho=desempenho)
 
 
 @views.route('/cadastro')
