@@ -117,7 +117,9 @@ block conteudo %}
               Faça o Quizz para obter dinheiro na sua conta
             </p>
             {% endfor %}
-            <button class="quizbtn">Jogue o Quizz!</button>
+            <a href="{{ url_for('views.responder_quiz') }}" target="_self" rel="next">
+              <button class="quizbtn">Jogue o Quizz!</button>
+            </a>
           </div>
         </div>
       </div>

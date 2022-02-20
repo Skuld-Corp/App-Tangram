@@ -3,7 +3,7 @@ import datetime
 import bcrypt
 import yagmail
 from flask import Blueprint, request, redirect, url_for, flash
-from .models import Usuario, db, TangramCoin, SenhaReset, PerguntasQuiz
+from .models import Usuario, db, TangramCoin, SenhaReset, PerguntasQuiz, PerguntasRespondidas
 from flask_login import login_required, login_user, logout_user, current_user
 from .help_functions import tem_saldo_suficiente, gerar_key, email_user, email_passw, \
     url_do_site, atualizar_perfil_func, eh_menor_que_essa_quantidade_de_caracters
@@ -246,3 +246,19 @@ def nova_pergunta():
             except:
                 flash("Ops, ocorreu algum erro!", category="error")
             return redirect(url_for('views.home'))
+
+
+@auth.route('/resposta_verificacao', methods=['POST',])
+def verificar_resposta():
+    resposta_escolhida = int(request.form.get('resposta'))
+    id_pergunta = request.form.get('pergunta_id')
+    pergunta = PerguntasQuiz.query.filter_by(id=id_pergunta).first()
+    acertou = resposta_escolhida == pergunta.resposta_certa
+    if acertou:
+        flash("Voceu acertou! Parabéns!", category="success")
+        pergunta_respondida = PerguntasRespondidas(aluno_id=current_user.id, pergunta_id=id_pergunta)
+        db.session.add(pergunta_respondida)
+        db.session.commit()
+    else:
+        flash("Infelizmente, você errou! Tente novamente!", category="error")
+    return redirect(url_for('views.responder_quiz'))

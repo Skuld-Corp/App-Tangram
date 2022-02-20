@@ -63,6 +63,13 @@ class PerguntasQuiz(db.Model):
     questao_dificuldade = db.Column(db.String(20))
 
 
+class PerguntasRespondidas(db.Model):
+    __tablename__ = "perguntasrespondidas"
+    id = db.Column(db.Integer, primary_key=True)
+    aluno_id = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'))
+    pergunta_id = db.Column(db.Integer, db.ForeignKey('perguntasquiz.id', ondelete='CASCADE'))
+
+
 inserir_coins_iniciais_func = DDL("""\
     CREATE OR REPLACE FUNCTION inserir_coins_iniciais_func() 
     RETURNS trigger  AS $$
