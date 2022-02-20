@@ -42,3 +42,4 @@ A tangram é uma startup institucional que foca na educação voltada para matem
 plataforma gamificada que concede o aluno aprender matemática de uma maneira divertida e descontraída. O projeto é totalmente voluntário e visa agregar conhecimentos tecnológicos e aprimorar o uso das ferramentas de desenvolvimento.
 
 ## 🔖 Layout
+![qiQFnFiBfa](https://user-images.githubusercontent.com/80642632/154843247-66ee643d-c86f-4687-bc69-949fc3efd520.gif)
