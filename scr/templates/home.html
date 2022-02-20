@@ -31,6 +31,9 @@ block conteudo %}
   >
   {% elif user.has_role == 2 %}
   <p>Bem vindo, Professor</p>
+  <a href="{{ url_for('views.nova_pergunta') }}" target="_self" rel="next">
+    Criar novas perguntas
+  </a>
   {% elif user.has_role == 3%}
   <div class="row">
     <div class="col-sm-6">

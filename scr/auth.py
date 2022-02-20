@@ -3,9 +3,10 @@ import datetime
 import bcrypt
 import yagmail
 from flask import Blueprint, request, redirect, url_for, flash
-from .models import Usuario, db, TangramCoin, SenhaReset
+from .models import Usuario, db, TangramCoin, SenhaReset, PerguntasQuiz
 from flask_login import login_required, login_user, logout_user, current_user
-from .help_functions import tem_saldo_suficiente, gerar_key, email_user, email_passw, url_do_site, atualizar_perfil_func
+from .help_functions import tem_saldo_suficiente, gerar_key, email_user, email_passw, \
+    url_do_site, atualizar_perfil_func, eh_menor_que_essa_quantidade_de_caracters
 
 
 auth = Blueprint('auth', __name__)
@@ -211,3 +212,37 @@ def atualizar_perfil():
             flash("Aconteceu algum erro", category="error")
             db.session.rollback()
         return redirect(url_for('views.perfil'))
+
+
+@auth.route('/nova_pergunta_create', methods=['POST',])
+def nova_pergunta():
+    titulo = request.form.get('titulo')
+    pergunta = request.form.get('pergunta')
+    resposta_1 = request.form.get('resposta_1')
+    resposta_2 = request.form.get('resposta_2')
+    resposta_3 = request.form.get('resposta_3')
+    resposta_4 = request.form.get('resposta_4')
+    resposta_certa = request.form.get('resposta_certa')
+    questao_dificuldade = request.form.get('questao_dificuldade')
+    if not eh_menor_que_essa_quantidade_de_caracters(titulo, 79):
+        flash("Seu título é muito comprido, por favor o diminua", category='warming')
+        return redirect(url_for('views.nova_pergunta'))
+    else:
+        if resposta_certa == 'Selecione a resposta correta':
+            flash("Você não selecionou a resposta para a pergunta!", category='warming')
+            return redirect(url_for('views.nova_pergunta'))
+        else:
+
+            try:
+                novo_pergunta = PerguntasQuiz(professor_id=current_user.id, pergunta_titulo=titulo,
+                                              pergunta=pergunta, resp_1=resposta_1,
+                                              resp_2=resposta_2, resp_3=resposta_3,
+                                              resp_4=resposta_4, resposta_certa=int(resposta_certa),
+                                              questao_dificuldade=questao_dificuldade)
+
+                db.session.add(novo_pergunta)
+                db.session.commit()
+                flash("Pergunta Registrada com sucesso!", category='success')
+            except:
+                flash("Ops, ocorreu algum erro!", category="error")
+            return redirect(url_for('views.home'))
