@@ -113,3 +113,4 @@ def responder_quiz():
         else:
             flash("Você não tem permissão para fazer isso!", category="error")
             return redirect(url_for('views.home'))
+
