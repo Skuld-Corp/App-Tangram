@@ -63,6 +63,21 @@ class PerguntasQuiz(db.Model):
     questao_dificuldade = db.Column(db.String(20))
 
 
+class PerguntasRespondidas(db.Model):
+    __tablename__ = "perguntasrespondidas"
+    id = db.Column(db.Integer, primary_key=True)
+    aluno_id = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'))
+    pergunta_id = db.Column(db.Integer, db.ForeignKey('perguntasquiz.id', ondelete='CASCADE'))
+
+
+class PerguntasDesempenho(db.Model):
+    __tablename__ = "perguntas_desempenho"
+    id = db.Column(db.Integer, primary_key=True)
+    aluno_id = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'))
+    total_de_perguntas_respondidas = db.Column(db.Integer)
+    total_de_perguntas_acertadas = db.Column(db.Integer)
+
+
 inserir_coins_iniciais_func = DDL("""\
     CREATE OR REPLACE FUNCTION inserir_coins_iniciais_func() 
     RETURNS trigger  AS $$
@@ -82,7 +97,27 @@ trigger_create_coin = DDL('''\
     EXECUTE PROCEDURE inserir_coins_iniciais_func();
 ''')
 
+inserir_dados_desempenho_func = DDL("""\
+    CREATE OR REPLACE FUNCTION inserir_dados_desempenho_func() 
+    RETURNS trigger  AS $$
+    BEGIN
+        IF (NEW.role = '3') THEN
+		    INSERT INTO perguntas_desempenho (aluno_id, total_de_perguntas_respondidas, total_de_perguntas_acertadas) values (NEW.id, '0', '0');
+	    END IF;
+	RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql ; 
+""")
+
+trigger_create_desempenho = DDL('''\
+    CREATE TRIGGER desempenho_criar AFTER INSERT
+    ON usuario 
+    FOR EACH ROW 
+    EXECUTE PROCEDURE inserir_dados_desempenho_func();
+''')
+
+
 event.listen(Usuario.__table__, "after_create", inserir_coins_iniciais_func)
+event.listen(Usuario.__table__, "after_create", inserir_dados_desempenho_func)
 event.listen(Usuario.__table__, "after_create", trigger_create_coin)
-
-
+event.listen(Usuario.__table__, "after_create", trigger_create_desempenho)

@@ -3,9 +3,9 @@ import datetime
 import bcrypt
 import yagmail
 from flask import Blueprint, request, redirect, url_for, flash
-from .models import Usuario, db, TangramCoin, SenhaReset, PerguntasQuiz
+from .models import Usuario, db, TangramCoin, SenhaReset, PerguntasQuiz, PerguntasRespondidas, PerguntasDesempenho
 from flask_login import login_required, login_user, logout_user, current_user
-from .help_functions import tem_saldo_suficiente, gerar_key, email_user, email_passw, \
+from .help_functions import gerar_key, email_user, email_passw, \
     url_do_site, atualizar_perfil_func, eh_menor_que_essa_quantidade_de_caracters
 
 
@@ -84,45 +84,6 @@ def logout():
     return redirect(url_for('views.home'))
 
 
-@auth.route('/depositar', methods=['POST',])
-@login_required
-def deposita():
-    if request.method == "POST":
-        eh_aluno = current_user.role
-        if eh_aluno:
-            saldo_a_depositar = request.form.get('saldo_deposita')
-            carteira_do_usuario = TangramCoin.query.filter_by(player_id=current_user.id).first()
-            carteira_do_usuario.saldo += int(saldo_a_depositar)
-            db.session.add(carteira_do_usuario)
-            db.session.commit()
-            flash("Saldo depositado com sucesso!", category='sucess')
-            return redirect(url_for('views.home'))
-        else:
-            flash("Ops algo deu errado!", category='error')
-            return redirect(url_for('views.home'))
-
-
-@auth.route('/sacar', methods=['POST',])
-@login_required
-def sacar():
-    if request.method == "POST":
-        eh_aluno = current_user.role
-        if eh_aluno:
-            saldo_a_sacar = int(request.form.get('saldo_sacar'))
-            carteira_do_usuario = TangramCoin.query.filter_by(player_id=current_user.id).first()
-            if tem_saldo_suficiente(carteira_do_usuario.saldo, saldo_a_sacar):
-                carteira_do_usuario.saldo -= saldo_a_sacar
-                db.session.add(carteira_do_usuario)
-                db.session.commit()
-                flash("Saldo sacado com sucesso!", category='sucess')
-            else:
-                flash("Saldo Insuficiente", category='error')
-            return redirect(url_for('views.home'))
-        else:
-            flash("Ops algo deu errado!", category='error')
-            return redirect(url_for('views.home'))
-
-
 @auth.route('/resetar_senha', methods=['POST',])
 def resetar_senha():
     email = request.form.get('email')
@@ -173,7 +134,7 @@ def nova_senha_post(id):
         salt = bcrypt.gensalt()
         senha1 = request.form.get("senha1")
         senha_cripto = bcrypt.hashpw(senha1.encode('utf-8'), salt)
-        usuario = Usuario.query.filter_by(id=usuario_reset.user_id).update({'senha': senha_cripto})
+        Usuario.query.filter_by(id=usuario_reset.user_id).update({'senha': senha_cripto})
         db.session.commit()
     except sqlalchemy.exc.IntegrityError:
         flash("Aconteceu algum erro!", category="error")
@@ -246,3 +207,34 @@ def nova_pergunta():
             except:
                 flash("Ops, ocorreu algum erro!", category="error")
             return redirect(url_for('views.home'))
+
+
+@auth.route('/resposta_verificacao', methods=['POST',])
+def verificar_resposta():
+    resposta_escolhida = int(request.form.get('resposta'))
+    id_pergunta = request.form.get('pergunta_id')
+    pergunta = PerguntasQuiz.query.filter_by(id=id_pergunta).first()
+    acertou = resposta_escolhida == pergunta.resposta_certa
+    if acertou:
+        flash("Voceu acertou! Parabéns!", category="success")
+        pergunta_respondida = PerguntasRespondidas(aluno_id=current_user.id, pergunta_id=id_pergunta)
+        carteira = TangramCoin.query.filter_by(player_id=current_user.id).first()
+        desempenho = PerguntasDesempenho.query.filter_by(aluno_id=current_user.id).first()
+        desempenho.total_de_perguntas_respondidas += 1
+        desempenho.total_de_perguntas_acertadas += 1
+        saldo_ganho_por_acertar = 0
+        if pergunta.questao_dificuldade == "facil":
+            saldo_ganho_por_acertar = 10
+        elif pergunta.questao_dificuldade == "medio":
+            saldo_ganho_por_acertar = 50
+        elif pergunta.questao_dificuldade == "dificil":
+            saldo_ganho_por_acertar = 100
+        carteira.saldo = carteira.saldo + saldo_ganho_por_acertar
+        db.session.add(pergunta_respondida)
+        db.session.commit()
+    else:
+        flash("Infelizmente, você errou! Tente novamente!", category="error")
+        desempenho = PerguntasDesempenho.query.filter_by(aluno_id=current_user.id).first()
+        desempenho.total_de_perguntas_respondidas += 1
+        db.session.commit()
+    return redirect(url_for('views.responder_quiz'))

@@ -7,13 +7,6 @@ import bcrypt
 PY2 = sys.version_info[0] == 2
 
 
-def tem_saldo_suficiente(saldo1, saldo2):
-    retorno = False
-    if saldo1 >= saldo2:
-        retorno = True
-    return retorno
-
-
 class RoleMixin(object):
     """
     "solução" para adicionar role ao flask login

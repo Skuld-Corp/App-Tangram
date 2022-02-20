@@ -55,8 +55,8 @@ block conteudo %}
             ></box-icon>
           </div>
 
-          <p class="card-text">Perguntas respondidas: X</p>
-          <p>Perguntas acertadas: Y</p>
+          <p class="card-text">Perguntas respondidas: {{ desempenho.total_de_perguntas_respondidas }}</p>
+          <p>Perguntas acertadas: {{ desempenho.total_de_perguntas_acertadas }}</p>
         </div>
       </div>
     </div>
@@ -110,14 +110,16 @@ block conteudo %}
               ></box-icon>
             </div>
             <h6 class="card-subtitle mb-2 text-muted">
-              Quiz número:<span style="color: #242323">1</span>
+              Quiz número:<span style="color: #242323">{{ desempenho.total_de_perguntas_acertadas + 1 }}</span>
             </h6>
             {% for user in user.saldo %}
             <p class="card-text">
               Faça o Quizz para obter dinheiro na sua conta
             </p>
             {% endfor %}
-            <button class="quizbtn">Jogue o Quizz!</button>
+            <a href="{{ url_for('views.responder_quiz') }}" target="_self" rel="next">
+              <button class="quizbtn">Jogue o Quizz!</button>
+            </a>
           </div>
         </div>
       </div>
