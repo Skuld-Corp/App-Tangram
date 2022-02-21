@@ -254,7 +254,7 @@ def atualizar_pergunta():
             flash("Aconteceu algum erro", category="error")
             db.session.rollback()
         return redirect(url_for('views.perfil'))
-    elif request.form.get('info') == 'Info':
+    elif request.form.get('info') == 'Editar':
         pergunta_id = request.form.get("pergunta_id")
         return redirect(url_for('views.editar_pergunta', id=pergunta_id))
     else:
