@@ -238,3 +238,19 @@ def verificar_resposta():
         desempenho.total_de_perguntas_respondidas += 1
         db.session.commit()
     return redirect(url_for('views.responder_quiz'))
+
+
+@auth.route('atualiza_pergunta', methods=['POST',])
+def atualizar_pergunta():
+    if request.form.get('deleta') == 'Deletar':
+        try:
+            pergunta_id = request.form.get("pergunta_id")
+            pergunta = db.session.query(PerguntasQuiz).filter(PerguntasQuiz.id == pergunta_id).first()
+            db.session.delete(pergunta)
+            db.session.commit()
+            flash("Pergunta deletada com sucesso!", category="success")
+            return redirect(url_for('views.perguntas_dash'))
+        except sqlalchemy.exc.IntegrityError:
+            flash("Aconteceu algum erro", category="error")
+            db.session.rollback()
+        return redirect(url_for('views.perfil'))

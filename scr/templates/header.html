@@ -24,7 +24,7 @@
                                     <li><a class="dropdown-item" href="#">Investir</a></li>
                                 {% elif user.has_role == 2 %}
                                 <!-- Professor -->
-                                    <li><a class="dropdown-item" href="{{ url_for('views.nova_pergunta') }}" target="_self" rel="next">Criar Perguntas</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('views.perguntas_dash') }}" target="_self" rel="next">Suas Perguntas</a></li>
                                 {% elif user.has_role == 3%}
                                 <!-- Aluno -->
                                     <li><a class="dropdown-item" href="{{ url_for('views.responder_quiz') }}" target="_self" rel="next">Quiz</a></li>
