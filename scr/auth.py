@@ -6,7 +6,7 @@ from flask import Blueprint, request, redirect, url_for, flash
 from .models import Usuario, db, TangramCoin, SenhaReset, PerguntasQuiz, PerguntasRespondidas, PerguntasDesempenho
 from flask_login import login_required, login_user, logout_user, current_user
 from .help_functions import gerar_key, email_user, email_passw, \
-    url_do_site, atualizar_perfil_func, eh_menor_que_essa_quantidade_de_caracters
+    url_do_site, atualizar_perfil_func, eh_menor_que_essa_quantidade_de_caracters, atualizar_pergunta_func
 
 
 auth = Blueprint('auth', __name__)
@@ -238,3 +238,46 @@ def verificar_resposta():
         desempenho.total_de_perguntas_respondidas += 1
         db.session.commit()
     return redirect(url_for('views.responder_quiz'))
+
+
+@auth.route('atualiza_pergunta', methods=['POST',])
+def atualizar_pergunta():
+    if request.form.get('deleta') == 'Deletar':
+        try:
+            pergunta_id = request.form.get("pergunta_id")
+            pergunta = db.session.query(PerguntasQuiz).filter(PerguntasQuiz.id == pergunta_id).first()
+            db.session.delete(pergunta)
+            db.session.commit()
+            flash("Pergunta deletada com sucesso!", category="success")
+            return redirect(url_for('views.perguntas_dash'))
+        except sqlalchemy.exc.IntegrityError:
+            flash("Aconteceu algum erro", category="error")
+            db.session.rollback()
+        return redirect(url_for('views.perfil'))
+    elif request.form.get('info') == 'Info':
+        pergunta_id = request.form.get("pergunta_id")
+        return redirect(url_for('views.editar_pergunta', id=pergunta_id))
+    else:
+        pergunta_id = request.form.get('pergunta_id')
+        pergunta = db.session.query(PerguntasQuiz).filter(PerguntasQuiz.id == pergunta_id).first()
+        titulo = request.form.get('titulo')
+        pergunta_questao = request.form.get('pergunta')
+        resposta_1 = request.form.get('resposta_1')
+        resposta_2 = request.form.get('resposta_2')
+        resposta_3 = request.form.get('resposta_3')
+        resposta_4 = request.form.get('resposta_4')
+        resposta_certa = request.form.get('resposta_certa')
+        questao_dificuldade = request.form.get('questao_dificuldade')
+        if not eh_menor_que_essa_quantidade_de_caracters(titulo, 79):
+            flash("Seu título é muito comprido, por favor o diminua", category='warming')
+            return redirect(url_for('views.editar_pergunta', id=pergunta_id))
+        else:
+            if resposta_certa == 'Selecione a resposta correta':
+                flash("Você não selecionou a resposta para a pergunta!", category='warming')
+                return redirect(url_for('views.editar_pergunta', id=pergunta_id))
+            else:
+                atualizar_pergunta_func(pergunta, titulo, pergunta_questao, resposta_1, resposta_2, resposta_3,
+                                        resposta_4, resposta_certa, questao_dificuldade)
+                db.session.commit()
+                flash("Questão atualizada com sucesso", category="success")
+                return redirect(url_for('views.editar_pergunta', id=pergunta_id))

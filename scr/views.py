@@ -87,7 +87,7 @@ def nova_pergunta():
 @views.route("/quiz")
 def responder_quiz():
     if not current_user.is_authenticated:
-        flash("Por favor, logue para acessar essa página!")
+        flash("Por favor, logue para acessar essa página!", category="error")
         return redirect(url_for('views.login'))
     else:
         if current_user.has_role == 3:
@@ -114,3 +114,35 @@ def responder_quiz():
             flash("Você não tem permissão para fazer isso!", category="error")
             return redirect(url_for('views.home'))
 
+
+@views.route("/pergunta_dash")
+def perguntas_dash():
+    if not current_user.is_authenticated:
+        flash("Por favor, logue para acessar essa página!", category="error")
+        return redirect(url_for('views.login'))
+    else:
+        if current_user.has_role == 2:
+            perguntas_do_professor = PerguntasQuiz.query.filter_by(professor_id=current_user.id).all()
+            return render_template("perguntas_dash.html", user=current_user, perguntas=perguntas_do_professor)
+        else:
+            flash("Você não tem permissao para acessar essa pagina!", category="error")
+            return redirect(url_for('views.home'))
+
+
+@views.route('/editar_pergunta/<id>', methods=['GET',])
+def editar_pergunta(id):
+    if not current_user.is_authenticated:
+        flash("Por favor, logue para acessar essa página!", category="error")
+        return redirect(url_for('views.login'))
+    else:
+        try:
+            pergunta = PerguntasQuiz.query.filter_by(id=id).first()
+            pergunta_pertence_ao_professor = pergunta.professor_id == current_user.id
+            if current_user.has_role == 2 and pergunta_pertence_ao_professor:
+                return render_template('editar_pergunta.html', user=current_user, pergunta=pergunta)
+            else:
+                flash("Você não tem permissao para acessar essa pagina!", category="error")
+                return redirect(url_for('views.home'))
+        except:
+            flash("Ops ocorreu algum erro!", category="error")
+            return redirect(url_for('views.home'))
