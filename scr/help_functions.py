@@ -68,3 +68,20 @@ def eh_menor_que_essa_quantidade_de_caracters(palavra, quantidade):
     if tamanho < quantidade:
         eh_menor = True
     return eh_menor
+
+
+def atualizar_pergunta_func(pergunta, titulo, pergunta_questao, resposta_1, resposta_2, resposta_3, resposta_4, resposta_certa, questao_dificuldade):
+    pergunta.resposta_certa = resposta_certa
+    pergunta.questao_dificuldade = questao_dificuldade
+    if not campo_eh_vazio(titulo):
+        pergunta.pergunta_titulo = titulo
+    if not campo_eh_vazio(pergunta_questao):
+        pergunta.pergunta = pergunta_questao
+    if not campo_eh_vazio(resposta_1):
+        pergunta.resp_1 = resposta_1
+    if not campo_eh_vazio(resposta_2):
+        pergunta.resp_2 = resposta_2
+    if not campo_eh_vazio(resposta_3):
+        pergunta.resp_3 = resposta_3
+    if not campo_eh_vazio(resposta_4):
+        pergunta.resp_4 = resposta_4

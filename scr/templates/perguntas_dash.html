@@ -24,10 +24,9 @@
               <div class="card-body">
                 <h5 class="card-title">{{ pergunta.pergunta_titulo }}</h5>
                 <p class="card-text">{{ pergunta.pergunta }}</p>
-                <a href="#" class="card-link">Card link</a>
+                <input type="submit" class="btn btn-info" value="Info" name="info">
                 <input type="submit" class="btn btn-danger" value="Deletar" name="deleta">
                 <input type="hidden" name="pergunta_id" value="{{ pergunta.id }}">
-                <input type="hidden" name="pergunta_idd" value="{{ pergunta }}">
               </div>
             </div>
             <br>
