@@ -1,7 +1,7 @@
 import pytz
 from flask import Blueprint, render_template, flash, redirect, url_for
-from flask_login import current_user, login_required
-from .models import SenhaReset, db, PerguntasQuiz, PerguntasRespondidas, PerguntasDesempenho
+from flask_login import current_user
+from .models import SenhaReset, PerguntasQuiz, PerguntasRespondidas, PerguntasDesempenho
 import datetime
 from random import choice
 
@@ -21,7 +21,7 @@ def home():
 
 @views.route('/cadastro')
 def cadastro():
-    return render_template('cadastro.html', user=current_user)
+    return render_template('auth/cadastro.html', user=current_user)
 
 
 @views.route('/login')
@@ -30,7 +30,7 @@ def login():
         flash('Você já esta logado!', category="sucess")
         return redirect(url_for('views.home'))
     else:
-        return render_template('login.html', user=current_user)
+        return render_template('auth/login.html', user=current_user)
 
 
 @views.route('/reset-senha')
@@ -39,10 +39,10 @@ def reset_senha():
         flash('Você já esta logado!', category="sucess")
         return redirect(url_for('views.home'))
     else:
-        return render_template('esqueceu_senha_solicitar.html')
+        return render_template('reset_password/esqueceu_senha_solicitar.html')
 
 
-@views.route('/troca-senha/<id>', methods=['GET',])
+@views.route('/trocar-senha/<id>', methods=['GET',])
 def nova_senha_get(id):
     chave = id
     senha_reset_chave = SenhaReset.query.filter_by(reset_key=id).one()
@@ -56,7 +56,7 @@ def nova_senha_get(id):
         if gerou_em < aberto_em:
             flash("O seu link de trocar a senha expirou. Por favor, gere um novo link", category="error")
             return redirect(url_for('views.reset_senha'))
-        return render_template("nova_senha.html", id=chave)
+        return render_template("reset_password/nova_senha.html", id=chave)
     else:
         flash("Não foi possível localizar esse endereço", category="error")
         return redirect(url_for("views.home"))
@@ -78,7 +78,7 @@ def nova_pergunta():
         return redirect(url_for('views.login'))
     else:
         if current_user.has_role == 2:
-            return render_template('criar_perguntas.html', user=current_user)
+            return render_template('professor_perguntas/criar_perguntas.html', user=current_user)
         else:
             flash("Você não tem permissão para fazer isso!", category="error")
             return redirect(url_for('views.home'))
@@ -109,13 +109,13 @@ def responder_quiz():
                 return redirect(url_for('views.home'))
             pergunta_escolhida_id = choice(tuple(perguntas_nao_respondidas))
             pergunta_escolhida = PerguntasQuiz.query.filter_by(id=pergunta_escolhida_id).first()
-            return render_template('responder_perguntas.html', user=current_user, pergunta=pergunta_escolhida)
+            return render_template('aluno_perguntas/responder_perguntas.html', user=current_user, pergunta=pergunta_escolhida)
         else:
             flash("Você não tem permissão para fazer isso!", category="error")
             return redirect(url_for('views.home'))
 
 
-@views.route("/pergunta_dash")
+@views.route("/suas_perguntas")
 def perguntas_dash():
     if not current_user.is_authenticated:
         flash("Por favor, logue para acessar essa página!", category="error")
@@ -123,7 +123,7 @@ def perguntas_dash():
     else:
         if current_user.has_role == 2:
             perguntas_do_professor = PerguntasQuiz.query.filter_by(professor_id=current_user.id).all()
-            return render_template("perguntas_dash.html", user=current_user, perguntas=perguntas_do_professor)
+            return render_template("professor_perguntas/perguntas_dash.html", user=current_user, perguntas=perguntas_do_professor)
         else:
             flash("Você não tem permissao para acessar essa pagina!", category="error")
             return redirect(url_for('views.home'))
@@ -139,7 +139,7 @@ def editar_pergunta(id):
             pergunta = PerguntasQuiz.query.filter_by(id=id).first()
             pergunta_pertence_ao_professor = pergunta.professor_id == current_user.id
             if current_user.has_role == 2 and pergunta_pertence_ao_professor:
-                return render_template('editar_pergunta.html', user=current_user, pergunta=pergunta)
+                return render_template('professor_perguntas/editar_pergunta.html', user=current_user, pergunta=pergunta)
             else:
                 flash("Você não tem permissao para acessar essa pagina!", category="error")
                 return redirect(url_for('views.home'))

@@ -27,7 +27,7 @@
                                 <li><a class="dropdown-item" href="{{ url_for('views.perfil') }}" target="_self" rel="next">Perfil</a></li>
                                 {% if user.has_role == 1 %}
                                 <!-- Admin -->
-                                    <li><a class="dropdown-item" href="#">Investir</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('views.cadastro') }}" target="_self" rel="next">Cadastrar professor</a></li>
                                 {% elif user.has_role == 2 %}
                                 <!-- Professor -->
                                     <li><a class="dropdown-item" href="{{ url_for('views.perguntas_dash') }}" target="_self" rel="next">Suas Perguntas</a></li>

@@ -1,4 +1,4 @@
-{% extends "template.html" %}
+{% extends "auth/template_login_cadastro.html" %}
 {% block title %} Login {% endblock %}
 {% block conteudo %}
   <div class="login-root">
@@ -129,7 +129,7 @@
         <div class="formbg-outer">
           <div class="formbg">
             <div class="formbg-inner padding-horizontal--48">
-              <div> {% include 'message.html' %} </div>
+              <div> {% include 'partials/message.html' %} </div>
               <span class="padding-bottom--15">Quem poupa ganha😜</span>
               <form id="stripe-login" method="post" action="{{ url_for('auth.login_confirm') }}">
                 <div class="field padding-bottom--24">
@@ -174,7 +174,7 @@
               <a href="{{ url_for('views.cadastro') }}">Cadastre aqui✏️</a></span
             >
             <footer>
-              {% include 'footer.html' %}
+              {% include 'partials/footer.html' %}
             </footer>
 
           </div>
