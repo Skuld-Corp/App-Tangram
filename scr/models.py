@@ -5,7 +5,7 @@ from flask_login import UserMixin
 from sqlalchemy import DDL, event
 from .help_functions import RoleMixin
 
-
+# tabela de cadastro do usuario
 class Usuario(db.Model, UserMixin, RoleMixin):
     __tablename__ = 'usuario'
     id = db.Column(db.Integer, primary_key=True)
@@ -25,6 +25,7 @@ class Usuario(db.Model, UserMixin, RoleMixin):
         self.role = role
 
 
+# niveis de permissoes dos usuario
 class Roles(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
@@ -32,6 +33,7 @@ class Roles(db.Model):
     descricao = db.Column(db.String(150))
 
 
+# tabela com saldo de cada usuario do tipo aluno
 class TangramCoin(db.Model):
     __tablename__ = 'tangramcoin'
     id = db.Column(db.Integer, primary_key=True)
@@ -39,6 +41,7 @@ class TangramCoin(db.Model):
     player_id = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'))
 
 
+# tabela de controle dos resets de senhas
 class SenhaReset(db.Model):
     __tablename__ = "senhareset"
     id = db.Column(db.Integer, primary_key=True)
@@ -49,6 +52,7 @@ class SenhaReset(db.Model):
     has_activated = db.Column(db.Boolean, default=False)
 
 
+# tabela com todas as perguntas
 class PerguntasQuiz(db.Model):
     __tablename__ = "perguntasquiz"
     id = db.Column(db.Integer, primary_key=True)
@@ -63,6 +67,7 @@ class PerguntasQuiz(db.Model):
     questao_dificuldade = db.Column(db.String(20))
 
 
+# tabela que armazena quais perguntas cada aluno ja respondeu
 class PerguntasRespondidas(db.Model):
     __tablename__ = "perguntasrespondidas"
     id = db.Column(db.Integer, primary_key=True)
@@ -70,6 +75,7 @@ class PerguntasRespondidas(db.Model):
     pergunta_id = db.Column(db.Integer, db.ForeignKey('perguntasquiz.id', ondelete='CASCADE'))
 
 
+# tabela que mostra o desempenho de cada aluno
 class PerguntasDesempenho(db.Model):
     __tablename__ = "perguntas_desempenho"
     id = db.Column(db.Integer, primary_key=True)
@@ -78,6 +84,8 @@ class PerguntasDesempenho(db.Model):
     total_de_perguntas_acertadas = db.Column(db.Integer)
 
 
+#           TRIGGERS
+# Trigger para inicializar a conta já com 100 tangram coins sempre que um aluno novo for cadastrado
 inserir_coins_iniciais_func = DDL("""\
     CREATE OR REPLACE FUNCTION inserir_coins_iniciais_func() 
     RETURNS trigger  AS $$
@@ -97,6 +105,8 @@ trigger_create_coin = DDL('''\
     EXECUTE PROCEDURE inserir_coins_iniciais_func();
 ''')
 
+
+# Trigger para inserir o desempenho zerado sempre que um aluno novo for cadastrado
 inserir_dados_desempenho_func = DDL("""\
     CREATE OR REPLACE FUNCTION inserir_dados_desempenho_func() 
     RETURNS trigger  AS $$
@@ -116,7 +126,7 @@ trigger_create_desempenho = DDL('''\
     EXECUTE PROCEDURE inserir_dados_desempenho_func();
 ''')
 
-
+# ativar as funções no DB
 event.listen(Usuario.__table__, "after_create", inserir_coins_iniciais_func)
 event.listen(Usuario.__table__, "after_create", inserir_dados_desempenho_func)
 event.listen(Usuario.__table__, "after_create", trigger_create_coin)
