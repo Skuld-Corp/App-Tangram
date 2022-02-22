@@ -2,6 +2,7 @@ import os
 import re
 
 uri = os.getenv("DATABASE_URL")
+# necessário pro Heroku
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 
