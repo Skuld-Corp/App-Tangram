@@ -3,9 +3,9 @@
 {% block conteudo %}
 <body>
     <header>
-        {% include 'header.html' %}
+        {% include 'partials/header.html' %}
     </header>
-    <div> {% include 'message.html' %} </div>
+    <div> {% include 'partials/message.html' %} </div>
     <main>
         <form class="row g-3" method="post" action="{{ url_for('auth.atualizar_perfil') }}">
             <div class="col-12">
@@ -27,7 +27,7 @@
           </form>
     </main>
     <footer>
-        {% include 'footer.html' %}
+        {% include 'partials/footer.html' %}
     </footer>
 </body>
 {% endblock %}

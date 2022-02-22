@@ -1,7 +1,7 @@
 {% extends "template_dashboard.html" %} {% block title %} Home {% endblock %} {%
 block conteudo %}
-<header>{% include 'header.html' %}</header>
-<div>{% include 'message.html' %}</div>
+<header>{% include 'partials/header.html' %}</header>
+<div>{% include 'partials/message.html' %}</div>
 <main class="bgdash">
   <div class="container">
     <div class="row">
@@ -25,10 +25,9 @@ block conteudo %}
   </div>
   <br />
   {% if user.has_role == 1 %}
-  <p>Bem vindo, Admin</p>
-  <a href="{{ url_for('views.cadastro') }}" target="_self" rel="next"
-    >Cadastrar Professor</a
-  >
+  <!- Dashboard do admin ->
+  {% elif user.has_role == 2%}
+  <!- Dashboard do professor ->
   {% elif user.has_role == 3%}
   <div class="row">
     <div class="col-sm-6">
@@ -282,5 +281,5 @@ block conteudo %}
   {% endif %}
 </main>
 
-<footer>{% include 'footer.html' %}</footer>
+<footer>{% include 'partials/footer.html' %}</footer>
 {% endblock %}

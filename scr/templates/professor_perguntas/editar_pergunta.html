@@ -1,33 +1,19 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-            rel="stylesheet"
-            href="{{ url_for('static', filename='style.css') }}"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <title>Crie sua pergunta</title>
-</head>
-<body>
-    <header>{% include 'header.html' %}</header>
-    <div>{% include 'message.html' %}</div>
+{% extends "professor_perguntas/template_perguntas.html" %}
+{% block title %} {{ pergunta.pergunta_titulo }} {% endblock %}
+{% block conteudo %}
+    <header>{% include 'partials/header.html' %}</header>
+    <div>{% include 'partials/message.html' %}</div>
     <main>
-        <form role="form" method="POST" action="{{ url_for('auth.nova_pergunta') }}">
+        <form role="form" method="POST" action="{{ url_for('auth.atualizar_pergunta') }}">
+            <!-- Id da pergunta -->
+            <input type="hidden" name="pergunta_id" value="{{ pergunta.id }}">
             <!-- titulo da pergunta -->
             <div class="row g-3 align-items-center">
               <div class="col-auto">
                 <label for="inputTitulo" class="col-form-label">Título da pergunta</label>
               </div>
               <div class="col-auto">
-                <input type="text" id="inputTitulo" class="form-control" aria-describedby="passwordHelpInline" name="titulo" required>
+                <input type="text" id="inputTitulo" class="form-control" aria-describedby="passwordHelpInline" name="titulo" placeholder="{{ pergunta.pergunta_titulo }}">
               </div>
               <div class="col-auto">
                 <span id="passwordHelpInline" class="form-text">
@@ -38,24 +24,24 @@
             <!-- pergunta -->
             <div class="mb-3">
               <label for="TextareaPergunta" class="form-label">Pergunta: </label>
-              <textarea class="form-control" id="TextareaPergunta" rows="3" name="pergunta" required></textarea>
+              <textarea class="form-control" id="TextareaPergunta" rows="3" name="pergunta" placeholder="{{ pergunta.pergunta }}"></textarea>
             </div>
             <!-- respostas -->
             <div class="mb-3">
               <label for="TextareaResposta1" class="form-label">Resposta 1: </label>
-              <textarea class="form-control" id="TextareaResposta1" rows="3" name="resposta_1" required></textarea>
+              <textarea class="form-control" id="TextareaResposta1" rows="3" name="resposta_1" placeholder="{{ pergunta.resp_1 }}"></textarea>
             </div>
             <div class="mb-3">
               <label for="TextareaResposta2" class="form-label">Resposta 2: </label>
-              <textarea class="form-control" id="TextareaResposta2" rows="3" name="resposta_2" required></textarea>
+              <textarea class="form-control" id="TextareaResposta2" rows="3" name="resposta_2" placeholder="{{ pergunta.resp_2 }}"></textarea>
             </div>
             <div class="mb-3">
               <label for="TextareaResposta3" class="form-label">Resposta 3: </label>
-              <textarea class="form-control" id="TextareaResposta3" rows="3" name="resposta_3" required></textarea>
+              <textarea class="form-control" id="TextareaResposta3" rows="3" name="resposta_3" placeholder="{{ pergunta.resp_3 }}"></textarea>
             </div>
             <div class="mb-3">
               <label for="TextareaResposta4" class="form-label">Resposta 4: </label>
-              <textarea class="form-control" id="TextareaResposta4" rows="3" name="resposta_4" required></textarea>
+              <textarea class="form-control" id="TextareaResposta4" rows="3" name="resposta_4" placeholder="{{ pergunta.resp_4 }}"></textarea>
             </div>
 
             <!-- Seleção da pergunta certa -->
@@ -92,11 +78,5 @@
         <button type="submit" class="btn btn-primary">Confirmar</button>
         </form>
     </main>
-    <footer>{% include 'footer.html' %}</footer>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
-</body>
-</html>
+    <footer>{% include 'partials/footer.html' %}</footer>
+{% endblock %}

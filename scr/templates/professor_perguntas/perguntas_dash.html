@@ -1,0 +1,25 @@
+{% extends "professor_perguntas/template_perguntas.html" %}
+{% block title %} Suas Perguntas {% endblock %}
+{% block conteudo %}
+    <header>{% include 'partials/header.html' %}</header>
+    <div>{% include 'partials/message.html' %}</div>
+    <main>
+        <h2 style="text-align: center">Suas Perguntas</h2>
+        {% for pergunta in perguntas %}
+        <!- Inicio do card ->
+        <form role="form" method="POST" action="{{ url_for('auth.atualizar_pergunta') }}">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{ pergunta.pergunta_titulo }}</h5>
+                <p class="card-text">{{ pergunta.pergunta }}</p>
+                <input type="submit" class="btn btn-info" value="Editar" name="info">
+                <input type="submit" class="btn btn-danger" value="Deletar" name="deleta">
+                <input type="hidden" name="pergunta_id" value="{{ pergunta.id }}">
+              </div>
+            </div>
+            <br>
+        </form>
+        <!- Fim do card ->
+        {% endfor %}
+    </main>
+{% endblock %}

@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 
 
-def cria_app(env):
+def cria_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
     migrate = Migrate(app, db)
@@ -47,4 +47,3 @@ def configura_roles(db):
         db.session.add(professor)
         db.session.add(estudante)
         db.session.commit()
-
