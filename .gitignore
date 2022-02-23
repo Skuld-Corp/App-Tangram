@@ -5,3 +5,4 @@ scr/__pycache__/
 .vscode/
 .env
 .venv
+.pytest_cache
