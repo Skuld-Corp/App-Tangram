@@ -1,10 +1,4 @@
 from flask import url_for
-import pytest
-from main import cria_app
-
-@pytest.fixture(scope="module")
-def app():
-    return cria_app()
 
 
 def test_app_criado_com_sucesso(app):
