@@ -17,7 +17,8 @@ def home():
     """
     if not current_user.is_authenticated:
         flash("Por favor, logue para acessar essa página!")
-        return redirect(url_for('views.login'))
+        #return redirect(url_for('views.login'))
+        return render_template('auth/cadastro.html', user=current_user)
     else:
         if current_user.has_role == 3:
             desempenho = PerguntasDesempenho.query.filter_by(aluno_id=current_user.id).first()

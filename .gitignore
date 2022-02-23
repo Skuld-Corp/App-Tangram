@@ -6,3 +6,4 @@ scr/__pycache__/
 .env
 .venv
 .pytest_cache
+.github
