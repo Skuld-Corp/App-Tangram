@@ -8,6 +8,7 @@
     <div> {% include 'partials/message.html' %} </div>
     <main>
         <form class="row g-3" method="post" action="{{ url_for('auth.atualizar_perfil') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="col-12">
                 <label for="inputNome" class="form-label">Nome</label>
                 <input type="text" class="form-control" id="inputNome" name="nome" placeholder="{{ user.nome }}">

@@ -8,6 +8,7 @@
         {% for pergunta in perguntas %}
         <!- Inicio do card ->
         <form role="form" method="POST" action="{{ url_for('auth.atualizar_pergunta') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="card" style="width: 18rem;">
               <div class="card-body">
                 <h5 class="card-title">{{ pergunta.pergunta_titulo }}</h5>

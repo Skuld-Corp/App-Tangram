@@ -6,6 +6,7 @@
   <h1>Troca de senha </h1>
   </br>
   <form role="form" method="POST" action="{{ url_for('auth.resetar_senha') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <div class="mb-3">
       <label for="Email" class="form-label">Endereço de Email</label>
       <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" name="email" placeholder="Seu Email" required>

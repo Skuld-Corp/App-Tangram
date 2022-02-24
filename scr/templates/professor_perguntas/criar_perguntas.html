@@ -5,6 +5,7 @@
     <div>{% include 'partials/message.html' %}</div>
     <main>
         <form role="form" method="POST" action="{{ url_for('auth.nova_pergunta') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <!-- titulo da pergunta -->
             <div class="row g-3 align-items-center">
               <div class="col-auto">

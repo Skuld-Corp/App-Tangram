@@ -132,6 +132,7 @@
                 <div> {% include 'partials/message.html' %} </div>
                 <span class="padding-bottom--15">Preencha abaixo!!!🤓</span>
                 <form id="stripe-login" action="{{ url_for('auth.cadastrar') }}" method="POST">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                   <div class="field padding-bottom--24">
                     <label for="nome">Nome</label>
                     <input type="text" name="nome" required/>

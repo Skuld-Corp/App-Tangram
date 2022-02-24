@@ -2,8 +2,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_wtf.csrf import CSRFProtect
 
-
+csrf = CSRFProtect()
 db = SQLAlchemy()
 
 
@@ -14,6 +15,7 @@ def cria_app():
 
     with app.app_context():
         db.init_app(app)
+        csrf.init_app(app)
         login_manager = LoginManager()
         login_manager.login_view = 'views.login'
         login_manager.init_app(app)

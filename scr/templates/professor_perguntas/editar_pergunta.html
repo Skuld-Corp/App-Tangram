@@ -5,6 +5,7 @@
     <div>{% include 'partials/message.html' %}</div>
     <main>
         <form role="form" method="POST" action="{{ url_for('auth.atualizar_pergunta') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <!-- Id da pergunta -->
             <input type="hidden" name="pergunta_id" value="{{ pergunta.id }}">
             <!-- titulo da pergunta -->

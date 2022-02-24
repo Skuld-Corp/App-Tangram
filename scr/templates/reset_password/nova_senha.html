@@ -5,6 +5,7 @@
   </br>
   <h1>Informe sua nova senha abaixo:</h1>
   <form role="form" method="POST" action="{{ url_for('auth.nova_senha_post', id=id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <div class="mb-3">
       <label for="senha" class="form-label">Nova Senha</label>
       <input type="password" class="form-control" id="senha" name="senha1" placeholder="Sua Senha Nova" required>
