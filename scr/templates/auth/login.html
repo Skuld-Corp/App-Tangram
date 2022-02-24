@@ -132,6 +132,7 @@
               <div> {% include 'partials/message.html' %} </div>
               <span class="padding-bottom--15">Quem poupa ganha😜</span>
               <form id="stripe-login" method="post" action="{{ url_for('auth.login_confirm') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="field padding-bottom--24">
                   <label for="email">Email</label>
                   <input type="email" name="email" />
